@@ -1,12 +1,18 @@
 local GameObject = require("gameobject.m2d_gameobject")
 local PauseManager = require("scripts.general.managers.pause_manager")
 local InputSystem = require("systems.input.m2d_input_system")
+local SineAnimation = require("scripts.general.animations.sine_animation")
 
 local thisObject = GameObject:new("pause_panel_top")
 local Script = thisObject:addComponent("Script")
 local Image = thisObject:addComponent("Image")
-
 local textObject
+
+local titleAnimation = SineAnimation.new({
+    position = { x = 140, y = 120, z = 3 },
+    amplitudeY = 5,
+    frequency = 3,
+})
 
 local function setPanelActive(active)
     Image.enabled = active
@@ -19,11 +25,11 @@ end
 
 function Script.start()
     textObject = GameObject.instantiate(GameObject:new("pause_text"), false)
-    textObject.transform:setPosition(154, 120, 3)
+    titleAnimation:start(textObject)
     local textComponent = textObject:addComponent("Text")
     textComponent:setFont("LTStudent_b")
-    textComponent:setContent("Pause")
-    
+    textComponent:setContent("PAUSE")
+
     PauseManager.pausePanelTop = thisObject
     thisObject.transform:setPosition(0, 0, 2)
     local canvas = GameObject.findByName("canvas_top")
@@ -34,6 +40,9 @@ function Script.start()
 end
 
 function Script.update()
+    if textObject then
+        titleAnimation:update(textObject)
+    end
     if InputSystem.getKeyDown(KEY_START) then
         local isPaused = PauseManager.isPaused()
         PauseManager.setPause(not isPaused)
