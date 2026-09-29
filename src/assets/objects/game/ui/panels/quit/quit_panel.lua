@@ -35,7 +35,7 @@ end
 function Script.update()
     if InputSystem.getKeyDown(KEY_HOME) then
         quitTimer = quitTimer + Time.deltaTime
-        if quitTimer >= 3 then
+        if quitTimer >= 1 then
             Runtime.endRuntime()
         end
         setPanelActive(true)

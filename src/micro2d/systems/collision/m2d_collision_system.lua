@@ -106,6 +106,7 @@ function CollisionSystem.unregisterCollider(layer, boxCollider)
 end
 
 function CollisionSystem.setLayerActive(layer, active)
+    if not collisionLayers[layer] then return end
     collisionLayers[layer].active = active
 end
 

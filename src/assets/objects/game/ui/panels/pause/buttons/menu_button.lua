@@ -18,6 +18,8 @@ end
 function thisButton.onClick()
     CollisionSystem.setLayerActive(1, true)
     CollisionSystem.setLayerActive(2, true)
+    CollisionSystem.setLayerActive(3, false)
+    CollisionSystem.setLayerActive(4, false)
     PauseManager.setPause(false)
     ScenesSystem.loadScene(1)
 end

@@ -8,24 +8,37 @@ local ImagesBank = {}
 
 local loadedImages = {}
 
---- Loads an image from the given path, caching it in the loadedImages table.
+--- Loads an image from the given path, caching it and tracking its users.
+--- Each call must be paired with an unloadImage call.
 --- @param path string The path to the image file.
 --- @return image_id The loaded image.
 function ImagesBank.loadImage(path)
-    if loadedImages[path] then
-        return loadedImages[path]
+    local entry = loadedImages[path]
+    if entry then
+        entry.users = entry.users + 1
+        return entry.image
     end
-    loadedImages[path] = Graphics.loadImage(path)
-    return loadedImages[path]
+
+    local image = Graphics.loadImage(path)
+    loadedImages[path] = {
+        image = image,
+        users = 1
+    }
+    return image
 end
 
---- Unloads the image at the given path, freeing its resources.
+--- Releases one user's reference to the image at the given path.
+--- Frees the image when its last user unloads it.
 --- @param path string The path to the image file.
 function ImagesBank.unloadImage(path)
-    if not loadedImages[path] then return end
+    local entry = loadedImages[path]
+    if not entry then return end
 
-    Graphics.freeImage(loadedImages[path])
-    loadedImages[path] = nil
+    entry.users = entry.users - 1
+    if entry.users == 0 then
+        Graphics.freeImage(entry.image)
+        loadedImages[path] = nil
+    end
 end
 
 return ImagesBank

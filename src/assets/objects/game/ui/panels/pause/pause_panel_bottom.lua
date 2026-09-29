@@ -5,7 +5,7 @@ local CollisionSystem = require("systems.collision.m2d_collision_system")
 
 local thisObject = GameObject:new("pause_panel_bottom")
 local Script = thisObject:addComponent("Script")
-local Image = thisObject:addComponent("Image")
+local panelBg
 
 local pauseButton
 local returnButton
@@ -16,7 +16,7 @@ local menuButton
 local menuButtonText
 
 local function setPanelActive(active)
-    Image.enabled = active
+    panelBg.enabled = active
     returnButton.enabled = active
     returnButtonText.enabled = active
     restartButton.enabled = active
@@ -34,6 +34,7 @@ end
 
 function Script.start()
     PauseManager.pausePanelBottom = thisObject
+    panelBg = GameObject.findByName("panel_background_bottom")
 
     pauseButton = GameObject.findByName("pause_button")
     pauseButton:getComponent("Button").collider:setLayer(2)
@@ -54,9 +55,6 @@ function Script.start()
     restartButtonText = GameObject.findByName("restart_button_text")
 
     thisObject.transform:setPosition(0, 0, 2)
-    local canvas = GameObject.findByName("canvas")
-    Image:setColor(0, 0, 0, 150)
-    Image:setCanvas(canvas.canvas)
     setPanelActive(false)
 end
 

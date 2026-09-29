@@ -29,8 +29,10 @@ function Canvas:switchScreen(screen)
     if self.screen == screen then return end
 
     for i = 1, #self.elements do
-        Renderer.unregisterRenderTask(self.elements[i].renderTask, self.screen, Renderer.SPACES.SCREEN)
-        Renderer.registerRenderTask(self.elements[i].renderTask, screen, Renderer.SPACES.SCREEN)
+        if self.elements[i].renderTask ~= nil then
+            Renderer.unregisterRenderTask(self.elements[i].renderTask, self.screen, Renderer.SPACES.SCREEN)
+            Renderer.registerRenderTask(self.elements[i].renderTask, screen, Renderer.SPACES.SCREEN)
+        end
     end
     self.screen = screen
 end
