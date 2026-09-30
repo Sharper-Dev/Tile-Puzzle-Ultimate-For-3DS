@@ -22,7 +22,8 @@ local objectsList = {
     "romfs:/assets/objects/game/ui/panels/pause/pause_panel_bottom.lua",
     "romfs:/assets/objects/game/ui/panels/pause/pause_panel_top.lua",
     "romfs:/assets/objects/game/ui/panels/panel_background_top.lua",
-    "romfs:/assets/objects/game/ui/panels/panel_background_bottom.lua"
+    "romfs:/assets/objects/game/ui/panels/panel_background_bottom.lua",
+    "romfs:/assets/objects/game/timer/timer_object.lua"
 }
 
 for _, object in ipairs(objectsList) do

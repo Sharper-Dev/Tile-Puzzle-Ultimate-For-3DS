@@ -7,6 +7,7 @@ local GeneratorScript = dofile("romfs:/assets/scripts/objects/board/board_genera
 local thisObject = GameObject:new("board")
 local gameOverTopPanel
 local gameOverBottomPanel
+local timerObject
 local Script = thisObject:addComponent("Script")
 thisObject:addComponent("Sprite")
 
@@ -16,6 +17,7 @@ function thisObject.callCheck()
         CollisionSystem.setLayerActive(1, false)
         gameOverTopPanel:setVisible(true, "Completed!")
         gameOverBottomPanel:setVisible(true)
+        timerObject.stopTimer()
     end
 end
 
@@ -23,6 +25,7 @@ Script.start = function()
     GeneratorScript.start(thisObject)
     gameOverBottomPanel = GameObject.findByName("gameover_panel_bottom")
     gameOverTopPanel = GameObject.findByName("gameover_panel_top")
+    timerObject = GameObject.findByName("timer")
 end
 
 return thisObject
