@@ -13,7 +13,7 @@ thisObject.textOffset = { x = 62, y = 23 }
 
 function thisScript.start()
     baseStart()
-    thisObject.transform:setPosition(90, 120, 1)
+    thisObject.transform:setPosition(90, 160, 1)
 end
 
 function thisScript.update()

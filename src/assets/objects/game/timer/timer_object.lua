@@ -10,7 +10,7 @@ local gameOverBottomPanel
 local gameOverTopPanel
 
 local isCounting = true
-local initialTime = 10
+local initialTime = 90
 local timerValue = initialTime
 
 function Script.start()

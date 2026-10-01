@@ -9,9 +9,7 @@ local baseStart = thisScript.start
 thisObject.textOffset = { x = 62, y = 23 }
 function thisScript.start()
     baseStart()
-    
-    thisObject.transform:setPosition(90, 50, 1)
-    --ScenesSystem.loadScene(2)
+    thisObject.transform:setPosition(90, 30, 1)
 end
 
 function thisButton.onClick()
