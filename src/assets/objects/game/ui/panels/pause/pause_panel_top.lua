@@ -52,7 +52,7 @@ function Script.update()
     end
     if InputSystem.getKeyDown(KEY_START) then
         local isPaused = PauseManager.isPaused()
-        PauseManager.setPause(not isPaused)
+        PauseManager.setPause(not isPaused, isPaused)
     end
 end
 

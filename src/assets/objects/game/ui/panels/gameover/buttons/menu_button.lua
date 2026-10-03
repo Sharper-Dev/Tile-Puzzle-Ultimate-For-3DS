@@ -37,6 +37,7 @@ function thisScript.update()
 end
 
 function thisButton.onClick()
+    if clicked then return end
     clicked = true
     FadeAnimation.callFadeIn(0.2)
 end
