@@ -14,11 +14,11 @@ local initialTime = 90
 local timerValue = initialTime
 
 function Script.start()
-    thisObject.transform:setPosition(95, 210, 1)
+    thisObject.transform:setPosition(148, 210, 1)
     local canvas = GameObject.findByName("canvas_top")
     Text:setCanvas(canvas.canvas)
     Text:setFont("LTStudent")
-    Text:setContent("00:00:00")
+    Text:setContent("00:00")
     isCounting = true
     gameOverBottomPanel = GameObject.findByName("gameover_panel_bottom")
     gameOverTopPanel = GameObject.findByName("gameover_panel_top")
@@ -33,7 +33,7 @@ function Script.update()
             gameOverTopPanel:setVisible(true, "Game Over")
             gameOverBottomPanel:setVisible(true)
         end
-        Text:setContent(string.format("%02d:%02d:%02d", math.floor(timerValue / 60), math.floor(timerValue % 60), math.floor((timerValue % 1) * 100)))
+        Text:setContent(string.format("%02d:%02d", math.floor(timerValue / 60), math.floor(timerValue % 60)))
     end
 end
 
