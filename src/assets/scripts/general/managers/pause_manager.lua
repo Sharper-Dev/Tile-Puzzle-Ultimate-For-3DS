@@ -2,10 +2,11 @@ local Manager = {}
 
 local isPaused = false
 local canPause = true
-function Manager.setPause(value)
+
+function Manager.setPause(value, fadeOut)
     if not canPause then return end
     isPaused = value
-    Manager.pausePanelBottom:setVisible(value)
+    Manager.pausePanelBottom:setVisible(value, fadeOut)
     Manager.pausePanelTop:setVisible(value)
 end
 

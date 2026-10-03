@@ -11,11 +11,7 @@ local Image = thisObject:addComponent("Image")
 local textComponent
 local quitTimer = 0
 local hasQuit = false
-local fadeObjectTop
-local fadeImageTop
 
-local fadeObjectBottom
-local fadeImageBottom
 local function setPanelActive(active)
     Image.enabled = active
     textComponent.enabled = active
@@ -28,13 +24,6 @@ function Script.start()
     Image:setImage("romfs:/assets/sprites/panels/dialog_panel.png")
     Image:setCanvas(canvas.canvas)
 
-    fadeObjectTop = GameObject.findByNameUniversal("fade_object_top")
-    fadeImageTop = fadeObjectTop:getComponent("Image")
-
-    fadeObjectBottom = GameObject.findByNameUniversal("fade_object_bottom")
-    fadeImageBottom = fadeObjectBottom:getComponent("Image")
-    fadeImageTop:setColor(0, 0, 0, 0)
-    fadeImageBottom:setColor(0, 0, 0, 0)
 
     local textObject = GameObject.instantiate(GameObject:new("quit_text"), false)
     textObject.transform:setScale(0.4, 0.4)
@@ -49,8 +38,7 @@ end
 function Script.update()
     if InputSystem.getKeyDown(KEY_HOME) then
         if not hasQuit then
-            FadeAnimation.startFadeIn(fadeImageTop, 1)
-            FadeAnimation.startFadeIn(fadeImageBottom, 1)
+            FadeAnimation.callFadeIn(1)
             hasQuit = true
             CollisionSystem.setLayerActive(1, false)
             CollisionSystem.setLayerActive(2, false)

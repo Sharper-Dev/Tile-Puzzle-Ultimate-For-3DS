@@ -14,7 +14,7 @@ function thisScript.start()
 end
 
 function thisButton.onClick()
-    PauseManager.setPause(false)
+    PauseManager.setPause(false, true)
 end
 
 return thisObject
