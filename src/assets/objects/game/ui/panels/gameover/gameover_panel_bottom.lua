@@ -2,10 +2,12 @@ local GameObject = require("gameobject.m2d_gameobject")
 local PauseManager = require("scripts.general.managers.pause_manager")
 local CollisionSystem = require("systems.collision.m2d_collision_system")
 local InputSystem = require("systems.input.m2d_input_system")
+local FadeAnimation = require("scripts.general.animations.fade_animation")
 
 local thisObject = GameObject:new("gameover_panel_bottom")
 local Script = thisObject:addComponent("Script")
 local panelBg
+local panelBgImage
 
 local restartButton
 local restartButtonText
@@ -23,14 +25,19 @@ local function setPanelActive(active)
     CollisionSystem.setLayerActive(2, not active)
     CollisionSystem.setLayerActive(3, not active)
     CollisionSystem.setLayerActive(4, active)
+
+    if active then
+        FadeAnimation.startFadeIn(panelBgImage, 0.2, 200)
+    end
 end
 
 function thisObject:setVisible(value)
-	setPanelActive(value)
+    setPanelActive(value)
 end
 
 function Script.start()
     panelBg = GameObject.findByName("panel_background_bottom")
+    panelBgImage = panelBg:getComponent("Image")
 
     menuButton = GameObject.findByName("menu_button_gameover")
     menuButton:getComponent("Button").collider:setLayer(4)
