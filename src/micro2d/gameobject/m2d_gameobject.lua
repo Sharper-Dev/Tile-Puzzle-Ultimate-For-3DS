@@ -124,6 +124,21 @@ function GameObject.findByName(name)
     return nil
 end
 
+--- Finds a GameObject by its name in Universal Scene.
+--- @param name The name of the GameObject to find.
+--- @return The found GameObject, or nil if not found.
+--- @usage
+--- local obj = GameObject.findByNameUniversal("MyObject")
+function GameObject.findByNameUniversal(name)
+    for _, object in ipairs(ScenesSystem.getUniversalScene().gameObjects) do
+        if object.name == name then
+            return object
+        end
+    end
+
+    return nil
+end
+
 --- Destroys the GameObject.
 --- Removes all components and destroys the GameObject.
 function GameObject:destroy()

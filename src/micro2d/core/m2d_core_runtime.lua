@@ -86,9 +86,15 @@ function CoreRuntime._loop()
     InputSystem.readInputs()
     CollisionSystem.processCollisions()
     local activeScenes = ScenesSystem.getActiveScenes()
+    local universalScene = ScenesSystem.getUniversalScene()
     for i = 1, #activeScenes do
         for j = 1, #activeScenes[i].gameObjects do
             activeScenes[i].gameObjects[j]:callUpdate()
+        end
+    end
+    if universalScene then
+        for j = 1, #universalScene.gameObjects do
+            universalScene.gameObjects[j]:callUpdate()
         end
     end
     Debugger.update()

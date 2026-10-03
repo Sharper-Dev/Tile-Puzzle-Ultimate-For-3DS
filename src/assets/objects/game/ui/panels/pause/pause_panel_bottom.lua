@@ -2,11 +2,12 @@ local GameObject = require("gameobject.m2d_gameobject")
 local PauseManager = require("scripts.general.managers.pause_manager")
 local InputSystem = require("systems.input.m2d_input_system")
 local CollisionSystem = require("systems.collision.m2d_collision_system")
+local FadeAnimation = require("scripts.general.animations.fade_animation")
 
 local thisObject = GameObject:new("pause_panel_bottom")
 local Script = thisObject:addComponent("Script")
 local panelBg
-
+local panelBgImage
 local pauseButton
 local returnButton
 local returnButtonText
@@ -16,7 +17,6 @@ local menuButton
 local menuButtonText
 
 local function setPanelActive(active)
-    panelBg.enabled = active
     returnButton.enabled = active
     returnButtonText.enabled = active
     restartButton.enabled = active
@@ -26,6 +26,11 @@ local function setPanelActive(active)
     CollisionSystem.setLayerActive(1, not active)
     CollisionSystem.setLayerActive(2, not active)
     CollisionSystem.setLayerActive(3, active)
+    if active then
+        FadeAnimation.startFadeIn(panelBgImage, 0.4, 150)
+    else
+        FadeAnimation.startFadeOut(panelBgImage, 0.4, 150)
+    end
 end
 
 function thisObject:setVisible(value)
@@ -35,6 +40,8 @@ end
 function Script.start()
     PauseManager.pausePanelBottom = thisObject
     panelBg = GameObject.findByName("panel_background_bottom")
+    panelBg.enabled = true
+    panelBgImage = panelBg:getComponent("Image")
 
     pauseButton = GameObject.findByName("pause_button")
     pauseButton:getComponent("Button").collider:setLayer(2)
