@@ -28,9 +28,9 @@ local function setPanelActive(active, fadeOut)
     CollisionSystem.setLayerActive(2, not active)
     CollisionSystem.setLayerActive(3, active)
     if active then
-        FadeAnimation.startFadeIn(panelBgImage, 0.4, 200)
+        FadeAnimation.startFadeIn(panelBgImage, 0.2, 200)
     elseif fadeOut then
-        FadeAnimation.startFadeOut(panelBgImage, 0.4, 200)
+        FadeAnimation.startFadeOut(panelBgImage, 0.2, 200)
     end
 end
 
