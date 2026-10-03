@@ -7,6 +7,8 @@ local CoreRuntime = {}
 local InputSystem = require("systems.input.m2d_input_system")
 local ScenesSystem = require("systems.scenes.m2d_scenes_system")
 local CollisionSystem = require("systems.collision.m2d_collision_system")
+local SoundsBank = require("banks.sounds.m2d_sounds_bank")
+
 local Renderer = require("systems.renderer.m2d_renderer")
 local Debugger = require("debugger.m2d_debugger")
 local Time = require("time.m2d_time")
@@ -47,6 +49,8 @@ end
 --- Ends runtime and returns to HOME Menu.
 function CoreRuntime.endRuntime()
     Graphics.term()
+    SoundsBank.cleanup()
+    Sound.term()
     System.exit()
 end
 
@@ -73,6 +77,7 @@ end
 function CoreRuntime._start()
     Graphics.init()
     preClean()
+    Sound.init()
     Time.init()
     ScenesSystem.loadUniversalScene()
     ScenesSystem.loadScene(1)
@@ -98,7 +103,7 @@ function CoreRuntime._loop()
         end
     end
     Debugger.update()
-
+    Sound.updateStream()
     Renderer.drawTop()
     Renderer.drawBottom()
     Graphics.flip()
