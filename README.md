@@ -1,10 +1,24 @@
 # Tile Puzzle Ultimate For 3DS
 
-The Tile Puzzle Ultimate port for the Nintendo 3DS, built using Lua and homebrew development tools.
+A tile puzzle game port for the Nintendo 3DS, built using Lua and homebrew development tools.
+
+
 
 ## Projects & Tools Used
 
-- **[lpp-3ds (Lua Player Plus 3DS)](https://github.com/Rinnegatamante/lpp-3ds)** - A powerful homebrew interpreter that allows running Lua applications and games on the Nintendo 3DS.
+- **[lpp-3ds (Lua Player Plus 3DS)](https://github.com/Rinnegatamante/lpp-3ds)** - A powerful homebrew interpreter that allows running Lua code on the Nintendo 3DS.
 - **[Micro2D Engine](https://github.com/Sharper-Dev/Micro2D-Engine)** - My lightweight 2D game engine/framework developed in Lua for structuring and rendering 2D games.
 - **[devkitPro](https://devkitpro.org/)** - Essential toolchain and utilities (`makerom`, `3dstool`) used for building Nintendo 3DS homebrew packages (`.3dsx` and `.cia`).
 - **[Lua](https://www.lua.org/)** - The lightweight multi-paradigm programming language used for game logic and scripting.
+
+## Gallery
+
+![Init Phone 3DS](readme_contents/init_phone_3ds.gif)
+
+- **Gameplay on 3DS:**
+
+----
+
+- **Gameplay on Citra Emulator:**
+
+-----
