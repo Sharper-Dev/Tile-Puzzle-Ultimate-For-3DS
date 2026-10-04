@@ -11,6 +11,7 @@ local ImagesBank = require("banks.images.m2d_images_bank")
 --- Creates an enabled image component with a white tint.
 --- @param gameObject table Game object that owns this component.
 --- @return table The new Image component.
+--- @usage local image = gameObject:addComponent("Image")
 function Image:new(gameObject)
     self = setmetatable({}, Image)
 
@@ -73,10 +74,7 @@ function Image:setColor(r, g, b, a)
 	return self
 end
 
---- Destroys the image and removes it from the canvas.
---
--- 
---- Unloads the image and removes this component from its canvas; called on scene switch.
+--- Unloads the image and removes this component from its canvas on scene switch.
 function Image:destroy()
     ImagesBank.unloadImage(self.imagePath)
     self.canvas:delElement(self)

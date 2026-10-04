@@ -10,6 +10,7 @@ local Renderer = require("systems.renderer.m2d_renderer")
 --- Creates a canvas on the top screen and assigns it to its game object.
 --- @param gameObject table Game object that owns the canvas.
 --- @return table The new Canvas instance.
+--- @usage local canvas = gameObject:addComponent("Canvas")
 function Canvas:new(gameObject)
     self = setmetatable({}, Canvas)
     self.screen = TOP_SCREEN

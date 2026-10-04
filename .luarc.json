@@ -80,6 +80,7 @@
         "param-type-mismatch",
         "return-type-mismatch",
         "inject-field",
-        "doc-field-no-class"
+        "doc-field-no-class",
+        "need-check-nil"
   ]
 }

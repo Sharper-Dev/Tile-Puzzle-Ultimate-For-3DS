@@ -70,10 +70,7 @@ function Sprite:setSprite(imgPath)
     return self
 end
 
---- Destroys the sprite component.
---
--- 
---- Unregisters the render task; called automatically when the scene switches.
+--- Unregisters the render task when the component is destroyed on scene switch.
 function Sprite:destroy()
     Renderer.unregisterRenderTask(self.renderTask, self.screen, Renderer.SPACES.WORLD)
     self.gameObject = nil

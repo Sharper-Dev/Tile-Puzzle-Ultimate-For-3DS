@@ -13,7 +13,7 @@ local RenderTask = require("systems.renderer.m2d_render_task")
 --- Creates a collider with a default size of 10×10 and registers it with the collision system.
 --- @param gameObject table Game object that owns this collider.
 --- @return table The new BoxCollider component.
---- @usage local collider = gameObject:addComponent("BoxCollider", {})
+--- @usage local collider = gameObject:addComponent("BoxCollider")
 function BoxCollider:new(gameObject)
     self = setmetatable({}, BoxCollider)
 
@@ -46,18 +46,21 @@ end
 
 --- Sets the meta collision layer used to filter collisions.
 --- @param layer number Meta collision layer.
+--- @usage collider:setMetaLayer(2)
 function BoxCollider:setMetaLayer(layer)
     self.metaCollisionLayer = layer
 end
 
 --- Adds a meta collision layer to this collider's ignore list.
 --- @param metaLayer number Meta collision layer to ignore.
+--- @usage collider:insertIgnoreMetaLayer(1)
 function BoxCollider:insertIgnoreMetaLayer(metaLayer)
     table.insert(self.ignoreMetaLayers, metaLayer)
 end
 
 --- Removes the first matching meta collision layer from the ignore list.
 --- @param metaLayer number Meta collision layer to stop ignoring.
+--- @usage collider:removeIgnoreMetaLayer(1)
 function BoxCollider:removeIgnoreMetaLayer(metaLayer)
     for i, layer in ipairs(self.ignoreMetaLayers) do
         if layer == metaLayer then
@@ -108,26 +111,54 @@ end
 
 --- Collision-enter callback; override to react when a collision begins.
 --- @param collider table The other collider involved in the collision.
+--- @usage
+--- function collider:onCollisionEnter(other)
+---     -- Code here
+--- end
 function BoxCollider:onCollisionEnter(collider) end
 
 --- Collision-stay callback; override to react while a collision continues.
 --- @param collider table The other collider involved in the collision.
+--- @usage
+--- function collider:onCollisionStay(other)
+---     -- Code here
+--- end
 function BoxCollider:onCollisionStay(collider) end
 
 --- Collision-exit callback; override to react when a collision ends.
 --- @param collider table The other collider involved in the collision.
+--- @usage
+--- function collider:onCollisionExit(other)
+---     -- Code here
+--- end
 function BoxCollider:onCollisionExit(collider) end
 
 --- Touch-down callback; override to react when a touch begins on this collider.
+--- @usage
+--- function collider:onTouchDown()
+---     -- Code here
+--- end
 function BoxCollider:onTouchDown() end
 
 --- Touch-stay callback; override to react while this collider remains touched.
+--- @usage
+--- function collider:onTouchStay()
+---     -- Code here
+--- end
 function BoxCollider:onTouchStay() end
 
 --- Touch-click callback; override to react when this collider is clicked.
+--- @usage
+--- function collider:onTouchClick()
+---     -- Code here
+--- end
 function BoxCollider:onTouchClick() end
 
 --- Touch-up callback; override to react when a touch on this collider ends.
+--- @usage
+--- function collider:onTouchUp()
+---     -- Code here
+--- end
 function BoxCollider:onTouchUp() end
 
 return BoxCollider

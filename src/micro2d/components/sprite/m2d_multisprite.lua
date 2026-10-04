@@ -1,7 +1,4 @@
---- Renders a selected cell from a sprite sheet; inherits the Sprite component API.
---
---
---- It contains the same fields as the `Sprite` component.
+--- Renders a selected cell from a sprite sheet.
 --- @see components_sprite
 --- @module components_multisprite
 --- @author Sharper Dev
@@ -15,7 +12,7 @@ MultiSprite.__index = MultiSprite
 --- Creates a MultiSprite with a 16×16 cell size and cursor at (0, 0).
 --- @param gameObject table Game object that owns this component.
 --- @return table The new MultiSprite component.
---- @usage local multi = gameObject:addComponent("MultiSprite", {})
+--- @usage local multi = gameObject:addComponent("MultiSprite")
 function MultiSprite:new(gameObject)
     self = Sprite.new(self, gameObject)
     setmetatable(self, MultiSprite)

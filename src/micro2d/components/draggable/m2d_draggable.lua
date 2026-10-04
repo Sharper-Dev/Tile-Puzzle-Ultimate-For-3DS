@@ -10,6 +10,7 @@ local InputSystem = require("systems.input.m2d_input_system")
 --- Creates a draggable component; requires an existing BoxCollider.
 --- @param gameObject table Game object to move while dragging.
 --- @return table The new Draggable component.
+--- @usage local draggable = gameObject:addComponent("Draggable")
 function Draggable:new(gameObject)
     self = setmetatable({}, Draggable)
 
@@ -53,12 +54,24 @@ function Draggable:update()
 end
 
 --- Override to handle the start of a drag, triggered by collider touch-down.
+--- @usage
+--- function draggable:onDragStart()
+---     -- Code here
+--- end
 function Draggable:onDragStart() end
 
 --- Override to handle each update while dragging; called after moving the object.
+--- @usage
+--- function draggable:onDragging()
+---     -- Code here
+--- end
 function Draggable:onDragging() end
 
 --- Override to handle the end of a drag, triggered by collider touch-up.
+--- @usage
+--- function draggable:onDragEnd()
+---     -- Code here
+--- end
 function Draggable:onDragEnd() end
 
 return Draggable

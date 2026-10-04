@@ -8,6 +8,7 @@ Button.__index = Button
 --- Creates a button and binds its input handlers to the object's BoxCollider.
 --- @param gameObject table Game object that owns the button and its BoxCollider.
 --- @return table The new Button instance.
+--- @usage local button = gameObject:addComponent("Button")
 function Button:new(gameObject)
     self = setmetatable({}, Button)
 
@@ -107,15 +108,27 @@ end
 --- @section events
 
 --- Override for the press event, triggered by the collider's touch-down callback.
+--- @usage
+--- function button.onDown()
+---     -- Code here
+--- end
 function Button.onDown() end
 
 --- Override for the held event; this method is not invoked by this component's update logic.
 function Button.onHold() end
 
 --- Override for the release event, triggered by the collider's touch-up callback.
+--- @usage
+--- function button.onUp()
+---     -- Code here
+--- end
 function Button.onUp() end
 
 --- Override for the click event, triggered by the collider's touch-click callback.
+--- @usage
+--- function button.onClick()
+---     -- Code here
+--- end
 function Button.onClick() end
 
 return Button

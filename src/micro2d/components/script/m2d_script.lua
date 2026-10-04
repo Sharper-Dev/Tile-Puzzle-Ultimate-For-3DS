@@ -7,6 +7,7 @@ Script.__index = Script
 ------
 --- Creates an enabled script component.
 --- @return table The new Script component.
+--- @usage local script = gameObject:addComponent("Script")
 function Script:new()
     self = setmetatable({}, Script)
     self.name = "Script"
@@ -23,28 +24,16 @@ function Script:destroy()
 end
 ------
 --- Lifecycle hook for one-time initialization when the component starts.
---- Override this method; it is invoked by the owning lifecycle, not by `Script:new`.
 --- @usage
---- local GameObject = require("gameobject.m2d_gameobject")
----
---- local thisObject = GameObject:new("Name here")
---- local script = thisObject:addComponent("Script", {})
---- 
 --- function script:start()
----     -- Start code here
+---     -- Code here
 --- end
 Script.start = function() end
 
---- Lifecycle hook for per-frame updates.
---- Override this method to update the object's state; the lifecycle calls it each frame.
+--- Lifecycle hook called each frame.
 --- @usage
---- local GameObject = require("gameobject.m2d_gameobject")
----
---- local thisObject = GameObject:new("Name here")
---- local script = thisObject:addComponent("Script", {})
---- 
 --- function script:update()
----     -- Update code here
+---     -- Code here
 --- end
 Script.update = function() end
 
