@@ -1,18 +1,16 @@
---- Manages sounds for the Micro2D engine.
---
---- The SoundsBank stores loaded sounds and provides methods to load and unload them. Preventing duplicate loading of the same sound.
+--- Opens, tracks, and closes sound resources by file path.
 --- @module bank_sounds
 --- @author Sharper Dev
 local Debugger = require("debugger.m2d_debugger")
 local SoundsBank = {}
 
 local loadedSounds = {}
---- Loads a sound file into memory.
---- @param format string The format of the sound file ("wav" or "ogg").
---- @param useStreaming boolean Whether to use streaming mode.
---- @param path string The path to the sound file.
---- @usage SoundsBank.loadSound("wav", false, "sounds/background.wav")
---- @return sound The loaded sound.
+--- Opens a WAV or OGG file unless its path is already loaded.
+--- This function does not return the sound handle; use `getLoadedSounds` to access the entry.
+--- @param format string File format: `"wav"` or `"ogg"`.
+--- @param useStreaming boolean Whether to open the sound in streaming mode.
+--- @param path string Path to the sound file; also used as its cache key.
+--- @usage SoundsBank.loadSound("wav", false, "romfs:/sounds/effect.wav")
 function SoundsBank.loadSound(format, useStreaming, path)
     if loadedSounds[path] then
         return
@@ -29,13 +27,13 @@ function SoundsBank.loadSound(format, useStreaming, path)
         path = path,
     }
 end
---- Returns the list of loaded sounds.
---- @return table The list of loaded sounds.
+--- Returns the table of loaded sound entries, keyed by file path.
+--- @return table Loaded sounds; each entry contains `format`, `wav_id`, and `path`.
 --- @usage local sounds = SoundsBank.getLoadedSounds()
 function SoundsBank.getLoadedSounds()
 	return loadedSounds
 end
---- Unloads all loaded sounds.
+--- Closes every loaded sound and clears the cache.
 --- @usage SoundsBank.cleanup()
 function SoundsBank.cleanup()
     Debugger.msg("Cleaning up sounds")
@@ -44,8 +42,9 @@ function SoundsBank.cleanup()
     end
 	loadedSounds = {}
 end
---- Unloads a sound from memory.
---- @param path string The path to the sound file.
+--- Pauses a playing sound, closes it, and removes it from the cache.
+--- Does nothing if the path is not loaded.
+--- @param path string Path used to load the sound.
 --- @usage SoundsBank.unloadSound("sounds/background.wav")
 function SoundsBank.unloadSound(path)
     if loadedSounds[path] ~= nil then

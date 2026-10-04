@@ -1,12 +1,12 @@
---- The base script for all objects.
---- It contains the life cycle functions.
+--- Base component providing script lifecycle hooks.
 --- @module components_script
 --- @author Sharper Dev
 
 local Script = {}
 Script.__index = Script
 ------
---- The constructor for the script.
+--- Creates an enabled script component.
+--- @return table The new Script component.
 function Script:new()
     self = setmetatable({}, Script)
     self.name = "Script"
@@ -14,6 +14,7 @@ function Script:new()
     return self
 end
 
+--- Clears the script's enabled state and lifecycle hooks when destroyed.
 function Script:destroy()
     self.enabled = nil
     self.start = nil
@@ -21,10 +22,8 @@ function Script:destroy()
     self = nil
 end
 ------
---- Virtual method called when the object is instantiated.
---
---
---- You can override this method to perform initialization.
+--- Lifecycle hook for one-time initialization when the component starts.
+--- Override this method; it is invoked by the owning lifecycle, not by `Script:new`.
 --- @usage
 --- local GameObject = require("gameobject.m2d_gameobject")
 ---
@@ -36,10 +35,8 @@ end
 --- end
 Script.start = function() end
 
---- Virtual method called every game's frame.
---
--- 
---- You can override this method to update the object's state.
+--- Lifecycle hook for per-frame updates.
+--- Override this method to update the object's state; the lifecycle calls it each frame.
 --- @usage
 --- local GameObject = require("gameobject.m2d_gameobject")
 ---

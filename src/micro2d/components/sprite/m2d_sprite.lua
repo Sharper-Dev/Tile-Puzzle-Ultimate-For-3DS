@@ -1,4 +1,4 @@
---- A component that represents a sprite on the screen.
+--- Component that renders an image or colored rectangle in world space.
 --- @module components_sprite
 --- @author Sharper Dev
 
@@ -9,8 +9,9 @@ local RenderTask = require("systems.renderer.m2d_render_task")
 local Renderer = require("systems.renderer.m2d_renderer")
 local ImagesBank = require("banks.images.m2d_images_bank")
 
---- The Sprite Constructor.
---- @param gameObject The game object this component is attached to.
+--- Creates an enabled sprite component with a white tint.
+--- @param gameObject table Game object that owns this component.
+--- @return table The new Sprite component.
 function Sprite:new(gameObject)
     self = setmetatable({}, Sprite)
 
@@ -28,10 +29,9 @@ function Sprite:new(gameObject)
     return self
 end
 
---- Sets the screen for the sprite rendering.
---
---- @param screen The screen to set.
---- @return The sprite instance.
+--- Registers this sprite's render task on the given screen in world space.
+--- @param screen number Screen on which to render the sprite.
+--- @return table This sprite component.
 --- @usage sprite:setScreen(TOP_SCREEN) 
 function Sprite:setScreen(screen)
     if self.screen == screen then return self end
@@ -43,13 +43,12 @@ function Sprite:setScreen(screen)
     return self
 end
 
---- Sets the color of the sprite.
---
---- @param r number red value
---- @param g number green value
---- @param b number blue value
---- @param a number alpha value (default: 255)
---- @return sprite The sprite instance.
+--- Sets the sprite tint; alpha defaults to 255 when omitted.
+--- @param r number Red color channel.
+--- @param g number Green color channel.
+--- @param b number Blue color channel.
+--- @param a number|nil Alpha channel, defaulting to 255.
+--- @return table This sprite component.
 --- @usage sprite:setColor(255, 0, 0)
 function Sprite:setColor(r, g, b, a)
     if a == nil then a = 255 end
@@ -58,10 +57,10 @@ function Sprite:setColor(r, g, b, a)
     return self
 end
 
---- Sets the sprite of the sprite component.
---
---- @param imgPath string The path to the sprite image.
---- @return sprite The sprite instance.
+--- Loads the sprite image and updates the component's dimensions.
+--- @param imgPath string Path or bank ID accepted by the image bank.
+--- @return table This sprite component.
+--- @usage sprite:setSprite("sprites/player.png")
 function Sprite:setSprite(imgPath)
     self.sprite = ImagesBank.loadImage(imgPath)
     self.spritePath = imgPath
@@ -74,7 +73,7 @@ end
 --- Destroys the sprite component.
 --
 -- 
---- It is called automatically when occurs a scene switch.
+--- Unregisters the render task; called automatically when the scene switches.
 function Sprite:destroy()
     Renderer.unregisterRenderTask(self.renderTask, self.screen, Renderer.SPACES.WORLD)
     self.gameObject = nil
@@ -83,10 +82,7 @@ function Sprite:destroy()
     self = nil
 end
 
---- Render function containing the draw logic.
---
--- 
---- It is called automatically by the render task, in m2d_renderer.
+--- Draws the sprite or its colored placeholder when invoked by the renderer.
 function Sprite:render()
     if not self.enabled then return end
 

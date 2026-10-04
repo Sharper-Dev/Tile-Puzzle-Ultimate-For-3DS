@@ -20,9 +20,9 @@ local componentsList = {
     ["Draggable"] = "components.draggable.m2d_draggable"
 }
 
---- The GameObject Constructor.
---- @param name The name of the GameObject.
---- @return The new GameObject.
+--- Creates a GameObject with a transform and no components.
+--- @param name string Name assigned to the new object.
+--- @return GameObject object The created object.
 --- @usage
 --- local GameObject = require("gameobject.m2d_gameobject")
 --- local obj = GameObject:new("MyObject")
@@ -37,9 +37,9 @@ function GameObject:new(name)
     return self
 end
 
---- Adds a component to the GameObject.
---- @param component The component to add.
---- @return The added component.
+--- Creates and attaches a component by its registered component name.
+--- @param component string Registered component name, such as "Script" or "Sprite".
+--- @return Component component The created component.
 --- @usage
 --- local obj = GameObject:new("MyObject")
 --- obj:addComponent("Script")
@@ -53,9 +53,9 @@ function GameObject:addComponent(component)
     return comp
 end
 
---- Returns the component with the specified name.
---- @param componentName The name of the component to find.
---- @return component, nil if not found.
+--- Returns the first attached component whose name matches the argument.
+--- @param componentName string Component name to look up.
+--- @return Component|nil component Matching component, or nil if none is found.
 --- @usage
 --- local obj = GameObject:new("MyObject")
 --- obj:addComponent("Script")
@@ -70,7 +70,8 @@ function GameObject:getComponent(componentName)
     return nil
 end
 
---- Calls the update method of all updateable components.
+--- Calls update on each enabled updateable component if this object is enabled.
+--- @usage gameObject:callUpdate()
 function GameObject:callUpdate()
     if not self.enabled then return end
 
@@ -82,10 +83,11 @@ function GameObject:callUpdate()
 	end
 end
 
---- Instantiates a GameObject from a given path.
---- @param gameObjectPath The path to the GameObject file.
---- @param isUniversal Whether the GameObject should be added to the universal scene.
---- @return The instantiated GameObject.
+--- Adds a GameObject to the active scene, or to the universal scene when requested.
+--- Accepts either a Lua file path to load with dofile or an existing GameObject.
+--- @param gameObjectPath string|GameObject File path or GameObject instance to add.
+--- @param isUniversal boolean|nil If true, add to the universal scene.
+--- @return GameObject object The added object.
 --- @usage
 --- local obj = GameObject.instantiate("path/to/GameObject.lua")
 function GameObject.instantiate(gameObjectPath, isUniversal)
@@ -109,9 +111,9 @@ function GameObject.instantiate(gameObjectPath, isUniversal)
     return newObject
 end
 
---- Finds a GameObject by its name.
---- @param name The name of the GameObject to find.
---- @return The found GameObject, or nil if not found.
+--- Finds the first GameObject with this name in the first active scene.
+--- @param name string Name to search for.
+--- @return GameObject|nil object Matching object, or nil if none is found.
 --- @usage
 --- local obj = GameObject.findByName("MyObject")
 function GameObject.findByName(name)
@@ -124,9 +126,9 @@ function GameObject.findByName(name)
     return nil
 end
 
---- Finds a GameObject by its name in Universal Scene.
---- @param name The name of the GameObject to find.
---- @return The found GameObject, or nil if not found.
+--- Finds the first GameObject with this name in the universal scene.
+--- @param name string Name to search for.
+--- @return GameObject|nil object Matching object, or nil if none is found.
 --- @usage
 --- local obj = GameObject.findByNameUniversal("MyObject")
 function GameObject.findByNameUniversal(name)
@@ -139,8 +141,9 @@ function GameObject.findByNameUniversal(name)
     return nil
 end
 
---- Destroys the GameObject.
---- Removes all components and destroys the GameObject.
+--- Disables the object, invokes its onDestroy hook, and destroys its components.
+--- Clears the object's transform and updateable-component references.
+--- @usage gameObject:destroy()
 function GameObject:destroy()
     self.enabled = false
 

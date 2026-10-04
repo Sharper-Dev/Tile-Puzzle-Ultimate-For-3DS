@@ -57,9 +57,10 @@ function Debugger.setupDebugger()
     Debugger.msg("Debugger initialized")
 end
 
---- Sends a message to the debugger console.
---- @param msg string The message to send.
---- @usage Debugger.msg("My message")
+--- Adds a message to the debugger console when the debugger is enabled.
+--- The console retains only the four most recent messages.
+--- @param msg string Message text to display.
+--- @usage Debugger.msg("Simulation started")
 function Debugger.msg(msg)
     if not isEnabled then return end
 
@@ -91,26 +92,31 @@ function Debugger.update()
     end
 end
 
---- Returns whether the debugger is currently enabled.
---- @return boolean
+--- Returns whether debugger updates are enabled.
+--- @return boolean enabled True when the debugger is enabled.
+--- @usage local enabled = Debugger.isEnabled()
 function Debugger.isEnabled()
     return isEnabled
 end
 
---- Sets whether the debugger is enabled.
---- @param value boolean
+--- Enables or disables debugger updates.
+--- @param value boolean True to enable the debugger; false to disable it.
+--- @usage Debugger.setEnable(false)
 function Debugger.setEnable(value)
     isEnabled = value
 end
 
---- Sets the object to debug.
---- @param obj GameObject The object to debug.
+--- Selects the object whose details are shown by the debugger.
+--- Pass nil to clear the selection.
+--- @param obj GameObject|nil Object to inspect, or nil to clear it.
+--- @usage Debugger.debugObject(myGameObject)
 function Debugger.debugObject(obj)
     objectToDebug = obj
 end
 
---- Returns the object currently being debugged.
---- @return GameObject
+--- Returns the selected debug object, if any.
+--- @return GameObject|nil object Selected object, or nil when none is selected.
+--- @usage local object = Debugger.getDebugObject()
 function Debugger.getDebugObject()
     return objectToDebug
 end

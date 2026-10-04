@@ -1,4 +1,4 @@
---- Input system settings.
+--- Configures input dead zones and motion-control state.
 --- @module systems_input_settings
 --- @author Sharper Dev
 
@@ -10,7 +10,7 @@ local cStickDeadZone = 20
 --- @section circle_pad
 
 ------
---- Sets the dead zone for the circle pad.
+--- Sets the per-axis dead-zone threshold for the Circle Pad.
 --
 --- The default value is 20.
 --- @param value integer The dead zone value.
@@ -19,7 +19,7 @@ function InputSettings.setCirclePadDeadZone(value)
     circlePadDeadZone = value
 end
 
---- Returns the dead zone for the circle pad.
+--- Returns the configured Circle Pad dead-zone threshold.
 -- 
 --- The default value is 20.
 --- @return integer The dead zone value.
@@ -31,14 +31,14 @@ end
 --- C-Stick
 --- @section c_stick
 
---- Sets the dead zone for the c-stick.
+--- Sets the per-axis dead-zone threshold for the C-Stick.
 --- @param value integer The dead zone value.
 --- @usage InputSettings.setCStickDeadZone(10)
 function InputSettings.setCStickDeadZone(value)
     cStickDeadZone = value
 end
 
---- Returns the dead zone for the c-stick.
+--- Returns the configured C-Stick dead-zone threshold.
 --- @return integer The dead zone value.
 --- @usage local deadZone = InputSettings.getCStickDeadZone()
 function InputSettings.getCStickDeadZone()
@@ -49,7 +49,7 @@ end
 --- @section tilting
 
 ------
---- Enables or disables the tilting controls (gyroscope and accelerometer).
+--- Enables or disables both the gyroscope and accelerometer.
 --- @param state boolean Whether to enable or disable the controls.
 --- @usage InputSettings.setTiltingState(true)
 function InputSettings.setTiltingState(state)

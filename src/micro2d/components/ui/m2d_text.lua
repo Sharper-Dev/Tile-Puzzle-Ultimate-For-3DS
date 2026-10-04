@@ -1,4 +1,4 @@
---- The UI Text component to display text on the canvas.
+--- UI component that renders text on a canvas using a bank font.
 --- @module components_ui_text
 --- @author Sharper Dev
 local Text = {}
@@ -8,8 +8,10 @@ local RenderTask = require("systems.renderer.m2d_render_task")
 local FontsBank = require("banks.fonts.m2d_fonts_bank")
 local utf8 = require("utf8")
 
---- The Text Constructor
---- @param gameObject The game object this component is attached to.
+--- Creates an enabled text component using the default font.
+--- @param gameObject table Game object that owns this component.
+--- @return table The new Text component.
+--- @usage local text = gameObject:addComponent("Text")
 function Text:new(gameObject)
     self = setmetatable({}, Text)
 
@@ -30,9 +32,9 @@ function Text:new(gameObject)
     return self
 end
 
---- Sets the canvas for this text component.
---- @param canvas The canvas to set.
---- @return The text component itself.
+--- Adds this component to a canvas, removing it from its previous canvas if set.
+--- @param canvas table Canvas on which to render the text.
+--- @return table This text component.
 --- @usage myText:setCanvas(canvas)
 function Text:setCanvas(canvas)
     if self.canvas ~= nil then
@@ -45,8 +47,9 @@ function Text:setCanvas(canvas)
     return self
 end
 
---- Sets the content of this text component.
---- @param content The content to set.
+--- Stores the text as lines, omitting empty lines.
+--- @param content string Text content to render.
+--- @return table This text component.
 --- @usage myText:setContent("Hello, World!")
 function Text:setContent(content)
     self.content = content
@@ -58,30 +61,32 @@ function Text:setContent(content)
     return self
 end
 
---- Returns the content of this text component.
---- @return The content of this text component.
+--- Returns the current text content.
+--- @return string Current content.
 --- @usage local content = myText:getContent()
 function Text:getContent()
     return self.content
 end
 
---- Sets the font of this text component.
---- @param fontID The font ID to set.
+--- Selects the font ID used to look up a font in the fonts bank.
+--- @param fontID string Font ID.
+--- @return table This text component.
 --- @usage myText:setFont("ComicSans")
 function Text:setFont(fontID)
     self.fontID = fontID
     return self
 end
 
---- Sets the line break distance of this text component.
---- @param value The line break distance to set.
+--- Sets the vertical distance added after each rendered line.
+--- @param value number Vertical line spacing.
+--- @return table This text component.
 --- @usage myText:setLineBreakDistance(10)
 function Text:setLineBreakDistance(value)
     self.lineBreakDistance = value
     return self
 end
 
---- Internal function to render the text.
+--- Draws the text when the component, canvas, and game object are enabled.
 function Text:render()
     if not self.enabled then return end
     if not self.canvas.enabled then return end
@@ -112,7 +117,7 @@ function Text:render()
     end
 end
 
---- Destroys this text component.
+--- Removes this text component from its canvas.
 function Text:destroy()
     self.canvas:delElement(self)
     self = nil

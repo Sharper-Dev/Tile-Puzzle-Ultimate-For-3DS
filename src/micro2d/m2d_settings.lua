@@ -4,13 +4,13 @@
 
 local Settings = {}
 
---- The path to the game assets directory. So you can use `require()` to load scripts from this directory.
+--- Prefix used to resolve game asset scripts through package.path.
+--- Include a trailing slash in the path.
 --- @usage Settings.ASSETS_PATH = "romfs:/assets/"
 Settings.ASSETS_PATH = "romfs:/assets/"
 
---- The scenes list to store the paths of the scene scripts.
---
---- You must specify the path to the scene script. So you can load it later by its index.
+--- Ordered paths to scene scripts; the scenes system loads scenes by index.
+--- Paths must identify Lua scene scripts.
 --- @usage Settings.SCENES[1] = "romfs:/assets/scripts/scenes/sample_scene.lua"
 Settings.SCENES = {}
 

@@ -1,4 +1,4 @@
---- A component that represents a box collider.
+--- Axis-aligned box collider attached to a game object.
 --- @module components_boxcollider
 --- @author Sharper Dev
 
@@ -10,8 +10,10 @@ local Debugger = require("debugger.m2d_debugger")
 local Renderer = require("systems.renderer.m2d_renderer")
 local RenderTask = require("systems.renderer.m2d_render_task")
 
---- BoxCollider constructor
---- @param gameObject The game object this collider is attached to.
+--- Creates a collider with a default size of 10×10 and registers it with the collision system.
+--- @param gameObject table Game object that owns this collider.
+--- @return table The new BoxCollider component.
+--- @usage local collider = gameObject:addComponent("BoxCollider", {})
 function BoxCollider:new(gameObject)
     self = setmetatable({}, BoxCollider)
 
@@ -33,28 +35,29 @@ function BoxCollider:new(gameObject)
     return self
 end
 
---- Sets the layer of the collider.
---- @param layer The layer to set.
+--- Moves this collider to a collision-system layer.
+--- @param layer number Collision layer to register under.
+--- @usage collider:setLayer(2)
 function BoxCollider:setLayer(layer)
     CollisionSystem.registerCollider(layer, self)
     CollisionSystem.unregisterCollider(self.collisionLayer, self)
     self.collisionLayer = layer
 end
 
---- Sets the meta layer of the collider.
---- @param layer The meta layer to set.
+--- Sets the meta collision layer used to filter collisions.
+--- @param layer number Meta collision layer.
 function BoxCollider:setMetaLayer(layer)
     self.metaCollisionLayer = layer
 end
 
---- Inserts a meta layer to ignore.
---- @param metaLayer The meta layer to ignore.
+--- Adds a meta collision layer to this collider's ignore list.
+--- @param metaLayer number Meta collision layer to ignore.
 function BoxCollider:insertIgnoreMetaLayer(metaLayer)
     table.insert(self.ignoreMetaLayers, metaLayer)
 end
 
---- Removes a meta layer to ignore.
---- @param metaLayer The meta layer to remove.
+--- Removes the first matching meta collision layer from the ignore list.
+--- @param metaLayer number Meta collision layer to stop ignoring.
 function BoxCollider:removeIgnoreMetaLayer(metaLayer)
     for i, layer in ipairs(self.ignoreMetaLayers) do
         if layer == metaLayer then
@@ -64,7 +67,7 @@ function BoxCollider:removeIgnoreMetaLayer(metaLayer)
     end
 end
 
---- Creates a gizmos for the collider.
+--- Draws the collider outline when the debugger is enabled.
 function BoxCollider:render()
     if not Debugger.isEnabled() then return end
 
@@ -76,7 +79,7 @@ function BoxCollider:render()
         Color.new(0, 255, 0))
 end
 
---- Clean up the collider and remove it from the collision system.
+--- Unregisters the collider and its render task.
 function BoxCollider:destroy()
     CollisionSystem.unregisterCollider(self.collisionLayer, self)
     Renderer.unregisterRenderTask(self.renderTask, BOTTOM_SCREEN, Renderer.SPACES.SCREEN)
@@ -85,44 +88,46 @@ function BoxCollider:destroy()
     self.enabled = nil
     self = nil
 end
---- Sets the size of the collider.
---- @param width The width of the collider.
---- @param height The height of the collider.
+--- Sets the collider's width and height.
+--- @param width number Collider width.
+--- @param height number Collider height.
+--- @usage collider:setSize(32, 24)
 function BoxCollider:setSize(width, height)
     self.width = width
     self.height = height
 end
 
---- Sets the offset of the collider.
---- @param x The x offset of the collider.
---- @param y The y offset of the collider.
+--- Sets the collider's offset from the game object's position.
+--- @param x number Horizontal offset.
+--- @param y number Vertical offset.
+--- @usage collider:setOffset(4, 0)
 function BoxCollider:setOffset(x, y)
     self.xoffset = x
     self.yoffset = y
 end
 
---- Called when the collider enters a collision.
---- @param collider The getted collider
+--- Collision-enter callback; override to react when a collision begins.
+--- @param collider table The other collider involved in the collision.
 function BoxCollider:onCollisionEnter(collider) end
 
---- Called when the collider stays in a collision.
---- @param collider The getted collider
+--- Collision-stay callback; override to react while a collision continues.
+--- @param collider table The other collider involved in the collision.
 function BoxCollider:onCollisionStay(collider) end
 
---- Called when the collider exits a collision.
---- @param collider The getted collider
+--- Collision-exit callback; override to react when a collision ends.
+--- @param collider table The other collider involved in the collision.
 function BoxCollider:onCollisionExit(collider) end
 
---- Called when the collider is touched down.
+--- Touch-down callback; override to react when a touch begins on this collider.
 function BoxCollider:onTouchDown() end
 
---- Called when the collider stays touched.
+--- Touch-stay callback; override to react while this collider remains touched.
 function BoxCollider:onTouchStay() end
 
---- Called when the collider is clicked.
+--- Touch-click callback; override to react when this collider is clicked.
 function BoxCollider:onTouchClick() end
 
---- Called when the collider is released.
+--- Touch-up callback; override to react when a touch on this collider ends.
 function BoxCollider:onTouchUp() end
 
 return BoxCollider

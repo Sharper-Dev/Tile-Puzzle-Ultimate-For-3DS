@@ -1,4 +1,4 @@
---- The GameObject transform.
+--- Stores a game object's position, rotation, and scale.
 --- @module components_transform
 --- @author Sharper Dev
 
@@ -8,9 +8,9 @@ Transform.__index = Transform
 --- Functions
 --- @section functions
 
---- The transform constructor.
---- @param gameObject m2d_gameobject GameObject this transform belongs to.
---- @return self transform
+--- Creates a transform at the origin with zero rotation and unit scale.
+--- @param gameObject table Game object that owns this transform.
+--- @return table The new Transform.
 function Transform:new(gameObject)
     self = setmetatable({}, Transform)
     self.gameObject = gameObject
@@ -21,11 +21,11 @@ function Transform:new(gameObject)
     return self
 end
 
---- Sets the position of this transform.
--- @param x number
--- @param y number
--- @param z number
---- @return self transform
+--- Sets the provided position coordinates; omitted (`nil`) coordinates remain unchanged.
+--- @param x number|nil X coordinate.
+--- @param y number|nil Y coordinate.
+--- @param z number|nil Z coordinate.
+--- @return table This transform.
 --- @usage
 --- thisObject.transform:setPosition(0, 0, 0)
 function Transform:setPosition(x, y, z)
@@ -36,10 +36,10 @@ function Transform:setPosition(x, y, z)
     return self
 end
 
---- Sets the scale of this transform.
---- @param x number
---- @param y number
---- @return self transform
+--- Sets the provided scale axes; omitted (`nil`) axes remain unchanged.
+--- @param x number|nil Horizontal scale.
+--- @param y number|nil Vertical scale.
+--- @return table This transform.
 --- @usage
 --- thisObject.transform:setScale(2, 2)
 function Transform:setScale(x, y)
@@ -49,11 +49,11 @@ function Transform:setScale(x, y)
     return self
 end
 
---- Translates this transform.
---- @param x number
---- @param y number
---- @param z number
---- @return self transform
+--- Adds the provided offsets to the current position; omitted offsets default to zero.
+--- @param x number|nil Horizontal offset.
+--- @param y number|nil Vertical offset.
+--- @param z number|nil Depth offset.
+--- @return table This transform.
 --- @usage
 --- thisObject.transform:translate(0, 0, 0)
 function Transform:translate(x, y, z)

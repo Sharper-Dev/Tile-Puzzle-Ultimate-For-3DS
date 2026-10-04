@@ -7,9 +7,8 @@ local Enabler = {}
 local InputSystem = require("systems.input.m2d_input_system")
 
 local hasSetup = false
---- The code sequence to enable the debugger.
---
---- Default sequence is the Konami code.
+--- Button sequence required to enable the debugger.
+--- The default sequence is the Konami code.
 local enableCode = { KEY_DUP, KEY_DUP,
     KEY_DDOWN, KEY_DDOWN,
     KEY_DLEFT, KEY_DRIGHT,
@@ -18,7 +17,8 @@ local enableCode = { KEY_DUP, KEY_DUP,
 
 local currentCodeIndex = 1
 
---- Detects the code sequence to enable the debugger.
+--- Checks the current input for progress through the debugger activation sequence.
+--- @usage Enabler.detectCode()
 function Enabler.detectCode()
     local rawInput = InputSystem.getRawInput() & 0x0FFF
     local Debugger = require("debugger.m2d_debugger")

@@ -1,4 +1,4 @@
---- The UI Canvas to display elements on the screen.
+--- Canvas that groups UI elements and registers their render tasks on a screen.
 --- @module components_ui_canvas
 --- @author Sharper Dev
 
@@ -7,9 +7,9 @@ Canvas.__index = Canvas
 
 local Renderer = require("systems.renderer.m2d_renderer")
 
---- The Canvas Constructor.
---- @param gameObject table The game object this canvas is attached to.
---- @return self canvas
+--- Creates a canvas on the top screen and assigns it to its game object.
+--- @param gameObject table Game object that owns the canvas.
+--- @return table The new Canvas instance.
 function Canvas:new(gameObject)
     self = setmetatable({}, Canvas)
     self.screen = TOP_SCREEN
@@ -21,8 +21,8 @@ function Canvas:new(gameObject)
     return self
 end
 
---- Switches the screen of the canvas.
---- @param screen number
+--- Moves the canvas elements' render tasks to another screen.
+--- @param screen number Destination screen, such as `BOTTOM_SCREEN`.
 --- @usage
 --- canvas:switchScreen(BOTTOM_SCREEN)
 function Canvas:switchScreen(screen)
@@ -40,8 +40,8 @@ end
 --- Engine internal functions
 --- @section engine_internal
 
---- Adds an element to the canvas.
---- @param element table
+--- Adds an element and registers its render task on this canvas's screen when present.
+--- @param element table UI element to add.
 --- @usage
 --- canvas:addElement(image)
 function Canvas:addElement(element)
@@ -50,8 +50,8 @@ function Canvas:addElement(element)
         Renderer.registerRenderTask(element.renderTask, self.screen, Renderer.SPACES.SCREEN)
     end
 end
---- Removes an element from the canvas.
---- @param element table
+--- Removes the first matching element and unregisters its render task when present.
+--- @param element table UI element to remove.
 --- @usage
 --- canvas:delElement(image)
 function Canvas:delElement(element)
@@ -66,6 +66,7 @@ function Canvas:delElement(element)
 	end
 end
 
+--- Removes all elements and clears the canvas reference on its game object.
 function Canvas:destroy()
     for i = #self.elements, 1, -1 do
         self:delElement(self.elements[i])

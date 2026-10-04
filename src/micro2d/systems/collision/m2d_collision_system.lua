@@ -1,4 +1,4 @@
---- Manages collisions between objects in the game.
+--- Registers colliders and dispatches touch and overlap callbacks.
 --- @module systems_collision
 --- @author Sharper Dev
 
@@ -9,6 +9,9 @@ local CollisionSystem = {}
 
 local collisionLayers = {}
 
+--- Checks touch state for one enabled collider.
+--- @param boxCollider table Collider to process.
+--- @private
 local function processTouch(boxCollider)
     if not boxCollider.enabled then return end
 
@@ -40,6 +43,11 @@ local function processTouch(boxCollider)
     end
 end
 
+--- Checks whether a collider ignores the given meta layer.
+--- @param boxCollider table Collider whose ignore list is checked.
+--- @param metaLayer number Meta layer to look up.
+--- @return boolean
+--- @private
 local function ignoresMetaLayer(boxCollider, metaLayer)
     for i = 1, #boxCollider.ignoreMetaLayers do
         if boxCollider.ignoreMetaLayers[i] == metaLayer then
@@ -49,6 +57,11 @@ local function ignoresMetaLayer(boxCollider, metaLayer)
     return false
 end
 
+--- Tests a collider pair and dispatches enter, stay, or exit callbacks.
+--- The pair is skipped only when both colliders ignore the other's meta layer.
+--- @param boxCollider1 table First collider.
+--- @param boxCollider2 table Second collider.
+--- @private
 local function processColliders(boxCollider1, boxCollider2)
     if ignoresMetaLayer(boxCollider1, boxCollider2.metaCollisionLayer)
         and ignoresMetaLayer(boxCollider2, boxCollider1.metaCollisionLayer) then
@@ -98,6 +111,10 @@ local function processColliders(boxCollider1, boxCollider2)
     end
 end
 
+--- Adds a collider to a collision layer, creating the layer if needed.
+--- @param layer number Collision layer used to group colliders.
+--- @param boxCollider table Collider to register.
+--- @usage CollisionSystem.registerCollider(1, collider)
 function CollisionSystem.registerCollider(layer, boxCollider)
     if not collisionLayers[layer] then
         collisionLayers[layer] = {}
@@ -107,15 +124,25 @@ function CollisionSystem.registerCollider(layer, boxCollider)
     collisionLayers[layer].colliders[tostring(boxCollider)] = boxCollider
 end
 
+--- Removes a collider from its registered collision layer.
+--- @param layer number Layer the collider was registered in.
+--- @param boxCollider table Collider to remove.
+--- @usage CollisionSystem.unregisterCollider(1, collider)
 function CollisionSystem.unregisterCollider(layer, boxCollider)
     collisionLayers[layer].colliders[tostring(boxCollider)] = nil
 end
 
+--- Enables or disables collision processing for a layer.
+--- @param layer number Collision layer to update.
+--- @param active boolean Whether the layer should be processed.
+--- @usage CollisionSystem.setLayerActive(1, false)
 function CollisionSystem.setLayerActive(layer, active)
     if not collisionLayers[layer] then return end
     collisionLayers[layer].active = active
 end
 
+--- Processes touch input and collider pairs in active layers.
+--- Called automatically once per frame by the runtime.
 function CollisionSystem.processCollisions()
     for i = 1, #collisionLayers do
         local layer = collisionLayers[i]

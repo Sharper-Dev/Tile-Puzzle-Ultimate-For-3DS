@@ -44,7 +44,9 @@ local function switchObject(isForward)
     Debugger.debugObject(ScenesSystem.getActiveScenes()[1].gameObjects[Debugger.currentObjectIndex])
 end
 
---- Detects and handles the movement of the debug object.
+--- Moves the selected debug object in response to directional input.
+--- Holding the quick-step key increases each movement from 1 to 10 units.
+--- @usage Functions.detectMove()
 function Functions.detectMove()
     local Debugger = require("debugger.m2d_debugger")
 
@@ -65,7 +67,8 @@ function Functions.detectMove()
     end
 end
 
---- Detects and handles the function keys for the debugger.
+--- Handles debugger shortcuts while the function key is held.
+--- @usage Functions.detectFunction()
 function Functions.detectFunction()
     local Debugger = require("debugger.m2d_debugger")
 

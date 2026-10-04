@@ -1,12 +1,13 @@
---- A scene in the Micro2D engine.
+--- Stores a scene's game objects and provides scene lifecycle operations.
 --- @module systems_scenes_scene
 --- @author Sharper Dev
 
 local Scene = {}
 Scene.__index = Scene
 
---- The Scene Constructor.
---- @return Scene
+--- Creates a scene with an empty game-object list.
+--- @param name string Scene name.
+--- @return Scene The new scene.
 --- @usage local scene = Scene:new("my_scene")
 function Scene:new(name)
     self = setmetatable({}, Scene)
@@ -15,10 +16,10 @@ function Scene:new(name)
     return self
 end
 
---- Adds a game object to the scene.
---- @param gameObject GameObject
---- @return GameObject
---- @usage local gameObject = scene:addGameObject("path/to/object.lua")
+--- Adds a game object, assigns its scene and list index, and returns it.
+--- @param gameObject GameObject Object to add.
+--- @return GameObject The added object.
+--- @usage local addedObject = scene:addGameObject(gameObject)
 function Scene:addGameObject(gameObject)
     table.insert(self.gameObjects, gameObject)
     gameObject.scene = self
@@ -27,15 +28,15 @@ function Scene:addGameObject(gameObject)
     return gameObject
 end
 
---- Internal function to set up unload behavior for the scene.
+--- Disables every game object in preparation for unloading.
 function Scene:setupUnload()
     for i = 1, #self.gameObjects do
         self.gameObjects[i].enabled = false
     end
 end
 
---- Unloads the scene, destroying all game objects.
---- This function is called when a scene transitions to another scene.
+--- Destroys all game objects and clears the scene's object and component references.
+--- Called when the scene transitions to another scene.
 function Scene:unload()
     for i = 1, #self.gameObjects do
         self.gameObjects[i]:destroy()

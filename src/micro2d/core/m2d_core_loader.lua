@@ -1,7 +1,5 @@
---- The core loader of Micro2D.
---- This module loads the runtime and starts the application.
----
---- It not contains any public functions.
+--- Loads the Micro2D runtime and starts the application.
+--- This module has no public functions.
 --- @module core_loader
 --- @author Sharper Dev
 --- @see core_runtime

@@ -1,4 +1,4 @@
---- Manages the loading and unloading of scenes in the game.
+--- Loads, starts, and unloads configured game scenes.
 --- @module systems_scenes
 --- @author Sharper Dev
 
@@ -8,8 +8,8 @@ local readyScenes = {}
 
 local universalScene
 
---- Loads a scene by index, unloading any active scenes first.
---- @param sceneIndex The index of the scene to load.
+--- Loads the configured scene at the index, first requesting unload of active scenes.
+--- @param sceneIndex integer Index into `M2D_SETTINGS.SCENES`.
 --- @usage ScenesSystem.loadScene(1)
 function ScenesSystem.loadScene(sceneIndex)
     for i, _ in ipairs(activeScenes) do
@@ -22,6 +22,8 @@ function ScenesSystem.loadScene(sceneIndex)
     table.insert(readyScenes, scene)
 end
 
+--- Calls `start` on components in scenes loaded since the previous start pass.
+--- @usage ScenesSystem.startReadyScenes()
 function ScenesSystem.startReadyScenes()
     for i = 1, #readyScenes do
         local scene = readyScenes[i]
@@ -36,12 +38,14 @@ function ScenesSystem.startReadyScenes()
     readyScenes = {}
 end
 
---- Returns the universal scene.
+--- Returns the universal scene loaded by `loadUniversalScene`.
+--- @return Scene|nil Universal scene, or `nil` before it is loaded.
+--- @usage local scene = ScenesSystem.getUniversalScene()
 function ScenesSystem.getUniversalScene()
     return universalScene
 end
 
---- Internal function to load the universal scene.
+--- Loads the engine's universal scene from its built-in asset path.
 function ScenesSystem.loadUniversalScene()
 	universalScene = dofile("romfs:/micro2d/assets/scenes/m2d_universal_scene.lua")
 	for i = 1, #universalScene.gameObjects do
@@ -54,8 +58,8 @@ function ScenesSystem.loadUniversalScene()
 	end
 end
 
---- Unloads a scene by index, destroying all game objects.
---- @param sceneIndex The index of the scene to unload.
+--- Disables the indexed active scene and requests its runtime unload.
+--- @param sceneIndex integer Index in the active-scenes list.
 --- @usage ScenesSystem.unloadScene(1)
 function ScenesSystem.unloadScene(sceneIndex)
     if activeScenes[sceneIndex] then
@@ -66,12 +70,15 @@ function ScenesSystem.unloadScene(sceneIndex)
     collectgarbage("collect")
 end
 
+--- Removes the scene at the index from the active-scenes list.
+--- @param index integer Index in the active-scenes list.
+--- @usage ScenesSystem.removeSceneFromTable(1)
 function ScenesSystem.removeSceneFromTable(index)
     table.remove(activeScenes, index)
 end
 
---- Returns the active scenes.
---- @return The active scenes.
+--- Returns the active-scenes list.
+--- @return table Active scenes.
 --- @usage local scenes = ScenesSystem.getActiveScenes()
 function ScenesSystem.getActiveScenes()
     return activeScenes

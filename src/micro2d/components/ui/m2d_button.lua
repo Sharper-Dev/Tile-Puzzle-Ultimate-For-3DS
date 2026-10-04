@@ -1,13 +1,13 @@
---- The UI Button component.
+--- Interactive UI button backed by a BoxCollider.
 --- @module components_ui_button
 --- @author Sharper Dev
 
 local Button = {}
 Button.__index = Button
 
---- The Button constructor.
---- @param gameObject The game object this button is attached to.
---- @return The new Button instance.
+--- Creates a button and binds its input handlers to the object's BoxCollider.
+--- @param gameObject table Game object that owns the button and its BoxCollider.
+--- @return table The new Button instance.
 function Button:new(gameObject)
     self = setmetatable({}, Button)
 
@@ -27,7 +27,7 @@ function Button:new(gameObject)
     return self
 end
 
---- The update function called every frame to update button state.
+--- Per-frame update; keeps the assigned image positioned with the button.
 function Button:update()
     if not self.enabled then return end
 
@@ -37,9 +37,10 @@ function Button:update()
     end
 end
 
---- Sets the canvas for the button.
---- @param canvas The canvas to set.
---- @return The button instance.
+--- Adds the button to a canvas, removing it from its previous canvas if present.
+--- @param canvas table Canvas that will contain the button.
+--- @return table This button.
+--- @usage button:setCanvas(canvas)
 function Button:setCanvas(canvas)
     if self.canvas ~= nil then
         self.canvas:delElement(self)
@@ -105,16 +106,16 @@ end
 --- Events
 --- @section events
 
---- Called when button is down.
+--- Override for the press event, triggered by the collider's touch-down callback.
 function Button.onDown() end
 
---- Called when button is held.
+--- Override for the held event; this method is not invoked by this component's update logic.
 function Button.onHold() end
 
---- Called when button is up.
+--- Override for the release event, triggered by the collider's touch-up callback.
 function Button.onUp() end
 
---- Called when button is clicked.
+--- Override for the click event, triggered by the collider's touch-click callback.
 function Button.onClick() end
 
 return Button

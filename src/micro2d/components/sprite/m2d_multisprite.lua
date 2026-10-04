@@ -1,4 +1,4 @@
---- Allows you to render multiple sprites from a single texture, using a cell cursor to select which sprite to render.
+--- Renders a selected cell from a sprite sheet; inherits the Sprite component API.
 --
 --
 --- It contains the same fields as the `Sprite` component.
@@ -12,6 +12,10 @@ local MultiSprite = {}
 setmetatable(MultiSprite, { __index = Sprite })
 MultiSprite.__index = MultiSprite
 
+--- Creates a MultiSprite with a 16×16 cell size and cursor at (0, 0).
+--- @param gameObject table Game object that owns this component.
+--- @return table The new MultiSprite component.
+--- @usage local multi = gameObject:addComponent("MultiSprite", {})
 function MultiSprite:new(gameObject)
     self = Sprite.new(self, gameObject)
     setmetatable(self, MultiSprite)
@@ -30,6 +34,7 @@ function MultiSprite:new(gameObject)
     return self
 end
 
+--- Draws the selected sprite-sheet cell when the component is enabled.
 function MultiSprite:render()
     if not self.enabled then return end
 

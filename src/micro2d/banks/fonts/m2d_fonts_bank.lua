@@ -1,5 +1,5 @@
---- Manages fonts for the Micro2D engine.
---- The Fonts Bank works with Bitmap Fonts, previously converted to Lua table and a PNG sheet.
+--- Loads and caches bitmap fonts for the Micro2D engine.
+--- Each font consists of a Lua data file and a PNG image sheet.
 --
 --- You can use my own tool called [BMFont2Lua](https://github.com/Sharper-Dev/BMFont2Lua) to convert your own BMFonts JSON files to Lua table.
 --- @module bank_fonts
@@ -29,17 +29,17 @@ function FontsBank.loadFont(id, fontPath)
     return loadedFonts[id]
 end
 
---- Unloads the font associated with the given ID, freeing its resources.
---- @param id string The ID of the font to unload.
+--- Frees the image sheet and removes the font associated with the ID.
+--- @param id string ID of the font to unload.
 --- @usage FontsBank.unloadFont("myFont")
 function FontsBank.unloadFont(id)
     Graphics.freeImage(loadedFonts[id].sheet)
     loadedFonts[id] = nil
 end
 
---- Returns the font associated with the given ID.
---- @param id string The ID of the font to retrieve.
---- @return table The font data.
+--- Returns the cached font entry for the ID, or `nil` if it is not loaded.
+--- @param id string ID of the font to retrieve.
+--- @return table|nil Font entry containing `data` and `sheet`.
 --- @usage local myFont = FontsBank.getFont("myFont")
 function FontsBank.getFont(id)
     return loadedFonts[id]

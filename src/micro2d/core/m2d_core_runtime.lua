@@ -15,11 +15,8 @@ local Time = require("time.m2d_time")
 
 local scenesToUnload = {}
 
---- Pre-clean the screen by filling it with black.
---
---- When the application starts, this is called to clear the top screen.
---
---- Sometimes when the application starts, the first frame may be a weird texture artifact and this helps to clear it.
+--- Clears startup artifacts by briefly drawing black to both screens.
+--- @private
 local function preClean()
     local sceneTimer = Timer.new()
 
@@ -46,7 +43,8 @@ local function preClean()
     Controls.enableScreen(BOTTOM_SCREEN)
 end
 
---- Ends runtime and returns to HOME Menu.
+--- Terminates graphics and audio, then exits to the HOME Menu.
+--- @usage CoreRuntime.endRuntime()
 function CoreRuntime.endRuntime()
     Graphics.term()
     SoundsBank.cleanup()
@@ -54,7 +52,8 @@ function CoreRuntime.endRuntime()
     System.exit()
 end
 
---- Internal function to check and unload scenes to unload.
+--- Unloads scenes queued for removal.
+--- @private
 local function checkScenesToUnload()
     for i = #scenesToUnload, 1, -1 do
         local scene = scenesToUnload[i]
@@ -66,14 +65,16 @@ local function checkScenesToUnload()
     end
 end
 
---- Internal function to request unload of a scene.
+--- Queues a scene for unloading during the runtime loop.
+--- @param scene Scene Scene to unload.
+--- @usage CoreRuntime.requestUnload(scene)
 function CoreRuntime.requestUnload(scene)
     table.insert(scenesToUnload, scene)
 end
 
 ------
---- Called when the game starts.
---- Initializes the graphics and loads the first scene.
+--- Initializes graphics, audio, time tracking, and the initial scenes.
+--- @usage CoreRuntime._start()
 function CoreRuntime._start()
     Graphics.init()
     preClean()
@@ -85,8 +86,8 @@ function CoreRuntime._start()
 end
 
 ------
---- Called after the game starts and then every frame.
---- Updates the input system, refreshes the screen, updates all components, and renders the active scenes.
+--- Processes one runtime frame: input, collisions, component updates, and rendering.
+--- @usage CoreRuntime._loop()
 function CoreRuntime._loop()
     InputSystem.readInputs()
     CollisionSystem.processCollisions()

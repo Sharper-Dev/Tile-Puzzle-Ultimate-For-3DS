@@ -1,5 +1,4 @@
---- The main renderer module.
---- It works with RenderTasks queue to render the game.
+--- Queues and draws render tasks by screen, coordinate space, and layer.
 --- @module systems_renderer
 --- @author Sharper Dev
 
@@ -26,22 +25,20 @@ local tasksPointer = {
     }
 }
 
---- Sorts the tasks in the given tasks table by their layer.
---- @param screen The screen to sort the tasks for.
---- @param space The space to sort the tasks for.
+--- Sorts one render queue by layer.
+--- @param screen integer Screen whose queue is sorted.
+--- @param space integer Render space whose queue is sorted.
 --- @private
---- @usage sortTasks(TOP_SCREEN, Renderer.SPACES.WORLD)
 local function sortTasks(screen, space)
     local tasksTable = tasksPointer[screen][space]
 
     table.sort(tasksTable, function(a, b) return a.layer < b.layer end)
 end
 
---- Checks if the tasks in the given tasks table need to be sorted by their layer, and sorts them if necessary.
---- @param screen The screen to check the tasks for.
---- @param space The space to check the tasks for.
+--- Resorts a queue when a task's layer has changed.
+--- @param screen integer Screen whose queue is checked.
+--- @param space integer Render space whose queue is checked.
 --- @private
---- @usage checkLayers(TOP_SCREEN, Renderer.SPACES.WORLD)
 local function checkLayers(screen, space)
     local tasksTable = tasksPointer[screen][space]
     local hasToSort = false
@@ -56,9 +53,9 @@ local function checkLayers(screen, space)
     end
 end
 --- Adds a render task to the given screen's task queue.
---- @param task The task to add.
---- @param screen The screen to add the task to.
---- @param space The space to add the task to.
+--- @param task table Render task with `layer` and `execute` fields.
+--- @param screen integer Screen constant (`TOP_SCREEN` or `BOTTOM_SCREEN`).
+--- @param space integer Coordinate space: `Renderer.SPACES.WORLD` or `Renderer.SPACES.SCREEN`.
 --- @usage Renderer.registerRenderTask(task, TOP_SCREEN, Renderer.SPACES.WORLD)
 function Renderer.registerRenderTask(task, screen, space)
     local tasksTable = tasksPointer[screen][space]
@@ -73,9 +70,9 @@ function Renderer.registerRenderTask(task, screen, space)
 end
 
 --- Removes a render task from the given screen's task queue.
---- @param task The task to remove.
---- @param screen The screen to remove the task from.
---- @param space The space to remove the task from.
+--- @param task table Render task to remove.
+--- @param screen integer Screen constant (`TOP_SCREEN` or `BOTTOM_SCREEN`).
+--- @param space integer Coordinate space: `Renderer.SPACES.WORLD` or `Renderer.SPACES.SCREEN`.
 --- @usage Renderer.unregisterRenderTask(task, TOP_SCREEN, Renderer.SPACES.WORLD)
 function Renderer.unregisterRenderTask(task, screen, space)
     local tasksTable = tasksPointer[screen][space]
@@ -87,8 +84,8 @@ function Renderer.unregisterRenderTask(task, screen, space)
     end
 end
 
---- Draws the top screen's render tasks.
---- This function is called automatically by the core runtime.
+--- Draws the top screen's world-space tasks, then screen-space tasks.
+--- The core runtime calls this function automatically.
 function Renderer.drawTop()
     checkLayers(TOP_SCREEN, Renderer.SPACES.WORLD)
     checkLayers(TOP_SCREEN, Renderer.SPACES.SCREEN)
@@ -110,8 +107,8 @@ function Renderer.drawTop()
     Graphics.termBlend()
 end
 
---- Draws the bottom screen's render tasks.
---- This function is called automatically by the core runtime.
+--- Draws the bottom screen's world-space tasks, then screen-space tasks.
+--- The core runtime calls this function automatically.
 function Renderer.drawBottom()
     checkLayers(BOTTOM_SCREEN, Renderer.SPACES.WORLD)
     checkLayers(BOTTOM_SCREEN, Renderer.SPACES.SCREEN)

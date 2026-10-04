@@ -13,7 +13,8 @@ local topScreenOffset = 40
 DebuggerUI.objects = {}
 DebuggerUI.texts = {}
 
---- Creates the UI for the debugger.
+--- Creates and registers the debugger's canvas, labels, and console.
+--- @usage DebuggerUI.createUI()
 function DebuggerUI.createUI()
     DebuggerUI.objects["DEBUGGER_CANVAS"] = GameObject.instantiate(GameObject:new("DEBUGGER_CANVAS"), true)
     DebuggerUI.objects["DEBUGGER_CANVAS"].transform:setPosition(0, 0, 99)
@@ -63,9 +64,9 @@ function DebuggerUI.createUI()
         :setCanvas(canvas)
 end
 
---- Switches the debug screen to the specified screen.
---- 
---- @param screen screen_id screen to switch to.
+--- Moves the debugger UI to the selected screen.
+--- @param screen screen_id Screen identifier, typically TOP_SCREEN or BOTTOM_SCREEN.
+--- @usage DebuggerUI.switchDebugScreen(TOP_SCREEN)
 function DebuggerUI.switchDebugScreen(screen)
     if screen == currentScreen then return end
     currentScreen = screen

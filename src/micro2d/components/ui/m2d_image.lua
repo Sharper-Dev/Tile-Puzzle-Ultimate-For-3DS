@@ -1,4 +1,4 @@
---- The UI Image component to display an image on the canvas.
+--- UI component that draws an image or a colored placeholder on a canvas.
 --- @module components_ui_image
 --- @author Sharper Dev
 
@@ -8,8 +8,9 @@ Image.__index = Image
 local RenderTask = require("systems.renderer.m2d_render_task")
 local ImagesBank = require("banks.images.m2d_images_bank")
 
---- The Image Constructor.
---- @param gameObject The game object this component is attached to.
+--- Creates an enabled image component with a white tint.
+--- @param gameObject table Game object that owns this component.
+--- @return table The new Image component.
 function Image:new(gameObject)
     self = setmetatable({}, Image)
 
@@ -28,9 +29,9 @@ function Image:new(gameObject)
     return self
 end
 
---- Sets the canvas to display the image on.
---- @param canvas table The canvas to set.
---- @return self image instance.
+--- Adds this image to a canvas, removing it from the previous canvas if set.
+--- @param canvas table Canvas on which to render this image.
+--- @return table This image component.
 --- @usage
 --- image:setCanvas(canvas)
 function Image:setCanvas(canvas)
@@ -44,9 +45,9 @@ function Image:setCanvas(canvas)
     return self
 end
 
---- Sets the image to display on the canvas.
---- @param imgPath string The image path to load.
---- @return self image instance.
+--- Loads an image from the image bank and updates its dimensions.
+--- @param imgPath string Path or bank ID accepted by the image bank.
+--- @return table This image component.
 --- @usage
 --- image:setImage(imgPath)
 function Image:setImage(imgPath)
@@ -57,12 +58,12 @@ function Image:setImage(imgPath)
     return self
 end
 
---- Sets the color of the image.
---- @param r number The red value.
---- @param g number The green value.
---- @param b number The blue value.
---- @param a number The alpha value.
---- @return self image instance.
+--- Sets the image tint; alpha defaults to 255 when omitted.
+--- @param r number Red color channel.
+--- @param g number Green color channel.
+--- @param b number Blue color channel.
+--- @param a number|nil Alpha channel, defaulting to 255.
+--- @return table This image component.
 --- @usage
 --- image:setColor(r, g, b, a)
 function Image:setColor(r, g, b, a)
@@ -75,7 +76,7 @@ end
 --- Destroys the image and removes it from the canvas.
 --
 -- 
---- It is called automatically when occurs a scene switch.
+--- Unloads the image and removes this component from its canvas; called on scene switch.
 function Image:destroy()
     ImagesBank.unloadImage(self.imagePath)
     self.canvas:delElement(self)
@@ -85,10 +86,7 @@ function Image:destroy()
     self = nil
 end
 
---- Render function containing the draw logic.
---
--- 
---- It is called automatically by the render task, in m2d_renderer.
+--- Draws the image or its placeholder; invoked by the renderer's registered render task.
 function Image:render()
     if not self.enabled then return end
     if not self.canvas.enabled then return end

@@ -1,4 +1,4 @@
---- Input system as a wrapper around Lua Player Plus Controls Module.
+--- Reads controller state and exposes button, touch, and motion input queries.
 --- @module systems_input
 --- @author Sharper Dev
 
@@ -38,25 +38,25 @@ function InputSystem.getRawInput()
 end
 
 ------
---- Checks if the specified key is currently pressed.
---- @param key integer
---- @return boolean
+--- Checks whether the key is held in the current input state.
+--- @param key integer Button bitmask to check.
+--- @return boolean `true` when the key is held.
 --- @usage local isPressed = InputSystem.getKey(KEY_A)
 function InputSystem.getKey(key)
     return Controls.check(currentInput, key)
 end
 
---- Checks if the specified key was pressed down this frame.
---- @param key integer
---- @return boolean
+--- Checks whether the key changed from released to pressed this frame.
+--- @param key integer Button bitmask to check.
+--- @return boolean `true` when the key was pressed this frame.
 --- @usage local isDown = InputSystem.getKeyDown(KEY_A)
 function InputSystem.getKeyDown(key)
     return Controls.check(downButtons, key)
 end
 
---- Checks if the specified key was released this frame.
---- @param key integer
---- @return boolean
+--- Checks whether the key changed from pressed to released this frame.
+--- @param key integer Button bitmask to check.
+--- @return boolean `true` when the key was released this frame.
 --- @usage local isUp = InputSystem.getKeyUp(KEY_A)
 function InputSystem.getKeyUp(key)
     return Controls.check(upButtons, key)
@@ -66,7 +66,7 @@ end
 --- @section circle_pad
 
 ------
---- Gets the current Circle Pad axis with applied Dead Zone.
+--- Returns the Circle Pad axes after applying the configured per-axis dead zone.
 --- @return integer X-Axis value.
 --- @return integer Y-Axis value.
 --- @usage local x, y = InputSystem.getCirclePad()
@@ -79,7 +79,7 @@ function InputSystem.getCirclePad()
 end
 
 ------
---- Gets the current C-Stick axis with applied Dead Zone.
+--- Returns the C-Stick axes after applying the configured per-axis dead zone.
 --- @return integer X-Axis value.
 --- @return integer Y-Axis value.
 --- @usage local x, y = InputSystem.getCstick()
@@ -95,9 +95,9 @@ end
 --- @section reading_touch
 
 ------
---- Gets the current touch position.
---- @return integer X-Axis value.
---- @return integer Y-Axis value.
+--- Returns the current touch coordinates from the controls module.
+--- @return integer x-coordinate.
+--- @return integer y-coordinate.
 --- @usage local x, y = InputSystem.getTouch()
 function InputSystem.getTouch()
 	return Controls.readTouch()
@@ -107,20 +107,20 @@ end
 --- @section reading_tilting
 
 ------
---- Gets the current gyroscope values.
---- @return integer X-Axis value.
---- @return integer Y-Axis value.
---- @return integer Z-Axis value.
+--- Returns the current gyroscope readings.
+--- @return integer x-axis reading.
+--- @return integer y-axis reading.
+--- @return integer z-axis reading.
 --- @usage local x, y, z = InputSystem.getGyro()
 function InputSystem.getGyro()
 	return Controls.readGyro()
 end
 
 ------
---- Gets the current accelerometer values.
---- @return integer X-Axis value.
---- @return integer Y-Axis value.
---- @return integer Z-Axis value.
+--- Returns the current accelerometer readings.
+--- @return integer x-axis reading.
+--- @return integer y-axis reading.
+--- @return integer z-axis reading.
 --- @usage local x, y, z = InputSystem.getAccel()
 function InputSystem.getAccel()
 	return Controls.readAccel()
