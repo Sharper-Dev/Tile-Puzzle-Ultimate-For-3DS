@@ -1,5 +1,4 @@
 local GameObject = require("gameobject.m2d_gameobject")
-local CollisionSystem = require("systems.collision.m2d_collision_system")
 
 local thisObject = GameObject:new("credits_panel_bottom")
 local Script = thisObject:addComponent("Script")

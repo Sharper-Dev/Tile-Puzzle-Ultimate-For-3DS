@@ -1,5 +1,4 @@
 local GameObject = require("gameobject.m2d_gameobject")
-local CollisionSystem = require("systems.collision.m2d_collision_system")
 
 local thisObject = GameObject:new("main_panel_bottom")
 local Script = thisObject:addComponent("Script")
@@ -29,17 +28,14 @@ end
 
 function Script.start()
     creditsButton = GameObject.findByName("credits_button")
-    --creditsButton:getComponent("Button").collider:setLayer(1)
 
     creditsButtonText = GameObject.findByName("credits_button_text")
 
     playButton = GameObject.findByName("play_button")
-    --playButton:getComponent("Button").collider:setLayer(1)
 
     playButtonText = GameObject.findByName("play_button_text")
 
     quitButton = GameObject.findByName("quit_button")
-    --quitButton:getComponent("Button").collider:setLayer(1)
 
     quitButtonText = GameObject.findByName("quit_button_text")
 

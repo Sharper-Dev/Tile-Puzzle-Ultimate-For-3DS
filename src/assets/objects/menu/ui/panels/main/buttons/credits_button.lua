@@ -1,33 +1,9 @@
-local ScenesSystem = require("systems.scenes.m2d_scenes_system")
-local uiButton = require("scripts.builders.ui_button_builder")
-local GameObject = require("gameobject.m2d_gameobject")
-local thisObject = uiButton.buildButton("credits_button", "Credits")
-local thisScript = thisObject:getComponent("Script")
-local thisButton = thisObject:getComponent("Button")
+local MenuPanelButton = require("scripts.builders.menu_panel_button_builder")
 
-local mainPanelBottom
-local mainPanelTop
-local creditsPanelBottom
-local creditsPanelTop
-
-local baseStart = thisScript.start
-thisObject.textOffset = { x = 45, y = 23 }
-
-function thisScript.start()
-    baseStart()
-
-    thisObject.transform:setPosition(90, 94, 1)
-    mainPanelBottom = GameObject.findByName("main_panel_bottom")
-    mainPanelTop = GameObject.findByName("main_panel_top")
-    creditsPanelBottom = GameObject.findByName("credits_panel_bottom")
-    creditsPanelTop = GameObject.findByName("credits_panel_top")
-end
-
-function thisButton.onClick()
-    mainPanelBottom:setVisible(false)
-    mainPanelTop:setVisible(false)
-    creditsPanelBottom:setVisible(true)
-    creditsPanelTop:setVisible(true)
-end
-
-return thisObject
+return MenuPanelButton.buildButton(
+    "credits_button",
+    "Credits",
+    { x = 45, y = 23 },
+    { x = 90, y = 94, z = 1 },
+    true
+)
