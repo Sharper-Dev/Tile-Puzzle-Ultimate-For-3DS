@@ -1,8 +1,6 @@
 # Tile Puzzle Ultimate For 3DS
 
-A tile puzzle game port for the Nintendo 3DS, built using Lua and homebrew development tools.
-
-
+The Tile Puzzle Ultimate port for the Nintendo 3DS, built using Lua and homebrew development tools.
 
 ## Projects & Tools Used
 
@@ -10,6 +8,12 @@ A tile puzzle game port for the Nintendo 3DS, built using Lua and homebrew devel
 - **[Micro2D Engine](https://github.com/Sharper-Dev/Micro2D-Engine)** - My lightweight 2D game engine/framework developed in Lua for structuring and rendering 2D games.
 - **[devkitPro](https://devkitpro.org/)** - Essential toolchain and utilities (`makerom`, `3dstool`) used for building Nintendo 3DS homebrew packages (`.3dsx` and `.cia`).
 - **[Lua](https://www.lua.org/)** - The lightweight multi-paradigm programming language used for game logic and scripting.
+
+## Limitations due to LPP-3DS
+
+- Closing and opening the 3DS results in a black screen, needing to restart the console. 
+- HOME Menu suspension does not work properly. When returning the game from the HOME Menu, the screen turns black.
+- The game does not have any sound effects, just background music. I had so many crashes while playing background music and sound effects simultaneously on the 3DS.
 
 ## Gallery
 
