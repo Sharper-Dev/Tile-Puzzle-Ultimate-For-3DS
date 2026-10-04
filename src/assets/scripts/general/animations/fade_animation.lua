@@ -20,26 +20,22 @@ local function getGlobalFadeImages()
     return globalFadeImages
 end
 
-function FadeAnimation.startFadeIn(image, duration, maxAlpha)
-    local anim = {
+local function startFade(image, duration, maxAlpha, fadeType)
+    table.insert(FadeAnimation.animating, {
         image = image,
         duration = duration,
         progress = 0,
-        type = "fadeIn",
+        type = fadeType,
         maxAlpha = maxAlpha or 255
-    }
-    table.insert(FadeAnimation.animating, anim)
+    })
+end
+
+function FadeAnimation.startFadeIn(image, duration, maxAlpha)
+    startFade(image, duration, maxAlpha, "fadeIn")
 end
 
 function FadeAnimation.startFadeOut(image, duration, maxAlpha)
-    local anim = {
-        image = image,
-        duration = duration,
-        progress = 0,
-        type = "fadeOut",
-        maxAlpha = maxAlpha or 255
-    }
-    table.insert(FadeAnimation.animating, anim)
+    startFade(image, duration, maxAlpha, "fadeOut")
 end
 
 local function startGlobalFade(startFunction, duration, maxAlpha)
