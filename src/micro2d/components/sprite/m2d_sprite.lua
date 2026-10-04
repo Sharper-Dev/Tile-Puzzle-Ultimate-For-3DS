@@ -62,16 +62,28 @@ end
 --- @return table This sprite component.
 --- @usage sprite:setSprite("sprites/player.png")
 function Sprite:setSprite(imgPath)
-    self.sprite = ImagesBank.loadImage(imgPath)
+    if self.spritePath == imgPath then return self end
+
+    local sprite = ImagesBank.loadImage(imgPath)
+    if self.spritePath then
+        ImagesBank.unloadImage(self.spritePath)
+    end
+
+    self.sprite = sprite
     self.spritePath = imgPath
-    self.imageWidth = Graphics.getImageWidth(self.sprite)
-    self.imageHeight = Graphics.getImageHeight(self.sprite)
+    self.imageWidth = Graphics.getImageWidth(sprite)
+    self.imageHeight = Graphics.getImageHeight(sprite)
 
     return self
 end
 
---- Unregisters the render task when the component is destroyed on scene switch.
+--- Releases the sprite image and unregisters its render task on scene switch.
 function Sprite:destroy()
+    if self.spritePath then
+        ImagesBank.unloadImage(self.spritePath)
+        self.spritePath = nil
+        self.sprite = nil
+    end
     Renderer.unregisterRenderTask(self.renderTask, self.screen, Renderer.SPACES.WORLD)
     self.gameObject = nil
     self.renderTask = nil

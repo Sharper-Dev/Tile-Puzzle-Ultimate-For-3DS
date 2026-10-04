@@ -52,10 +52,17 @@ end
 --- @usage
 --- image:setImage(imgPath)
 function Image:setImage(imgPath)
-    self.image = ImagesBank.loadImage(imgPath)
+    if self.imagePath == imgPath then return self end
+
+    local image = ImagesBank.loadImage(imgPath)
+    if self.imagePath then
+        ImagesBank.unloadImage(self.imagePath)
+    end
+
+    self.image = image
     self.imagePath = imgPath
-    self.imageWidth = Graphics.getImageWidth(self.image)
-    self.imageHeight = Graphics.getImageHeight(self.image)
+    self.imageWidth = Graphics.getImageWidth(image)
+    self.imageHeight = Graphics.getImageHeight(image)
     return self
 end
 
@@ -76,7 +83,11 @@ end
 
 --- Unloads the image and removes this component from its canvas on scene switch.
 function Image:destroy()
-    ImagesBank.unloadImage(self.imagePath)
+    if self.imagePath then
+        ImagesBank.unloadImage(self.imagePath)
+        self.imagePath = nil
+        self.image = nil
+    end
     self.canvas:delElement(self)
     self.gameObject = nil
     self.renderTask = nil
