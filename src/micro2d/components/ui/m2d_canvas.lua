@@ -67,8 +67,8 @@ function Canvas:delElement(element)
 end
 
 function Canvas:destroy()
-    for i = 1, #self.elements do
-        Canvas:delElement(self.elements[i])
+    for i = #self.elements, 1, -1 do
+        self:delElement(self.elements[i])
     end
     self.gameObject.canvas = nil
     self.gameObject = nil
