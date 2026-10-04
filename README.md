@@ -14,7 +14,7 @@ The original game source code can be found [here](https://github.com/Sharper-Dev
 ## Limitations due to LPP-3DS
 
 - Closing and opening the 3DS results in a black screen, needing to restart the console. 
-- HOME Menu suspension does not work properly. When returning the game from the HOME Menu, the screen turns black.
+- HOME Menu suspension does not work properly. When returning the game from the HOME Menu, the screen turns black. So the best way to solve this was making quitting the game immediately when pressing the HOME button.
 - The game does not have any sound effects, just background music. I had so many crashes while playing background music and sound effects simultaneously on the 3DS.
 
 ## Gallery
