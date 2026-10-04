@@ -9,7 +9,7 @@ function Builder.buildButton(name, content, img)
     FontsBank.loadFont("LTStudent_b", "romfs:/assets/fonts/ltstudent_bold")
     img = img or "romfs:/assets/sprites/buttons/button_large.png"
     local scriptComponent = buttonObject:addComponent("Script")
-    local colliderComponent = buttonObject:addComponent("BoxCollider")
+    buttonObject:addComponent("BoxCollider")
     local buttonComponent = buttonObject:addComponent("Button")
     local imageComponent = buttonObject:addComponent("Image")
 

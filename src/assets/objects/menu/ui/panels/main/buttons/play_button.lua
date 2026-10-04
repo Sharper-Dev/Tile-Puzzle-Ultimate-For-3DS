@@ -10,15 +10,9 @@ local thisButton = thisObject:getComponent("Button")
 
 local counter = 0
 local clicked = false
-local baseStart = thisScript.start
 local baseUpdate = thisScript.update
 thisObject.textOffset = { x = 62, y = 23 }
-
-function thisScript.start()
-    baseStart()
-
-    thisObject.transform:setPosition(90, 30, 1)
-end
+thisObject.transform:setPosition(90, 30, 1)
 
 function thisScript.update()
 	baseUpdate()

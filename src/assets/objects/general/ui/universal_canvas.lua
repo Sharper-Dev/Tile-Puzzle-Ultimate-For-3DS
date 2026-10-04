@@ -1,6 +1,3 @@
-local GameObject = require("gameobject.m2d_gameobject")
+local CanvasBuilder = require("scripts.builders.canvas_builder")
 
-local thisObject = GameObject:new("universal_canvas")
-thisObject:addComponent("Canvas"):switchScreen(BOTTOM_SCREEN)
-
-return thisObject
+return CanvasBuilder.create("universal_canvas", BOTTOM_SCREEN)
