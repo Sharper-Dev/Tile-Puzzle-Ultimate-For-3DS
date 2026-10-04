@@ -89,29 +89,27 @@ function Text:render()
 
     local transform = self.gameObject.transform
     local position = transform.position
-    local cursor = { x = position.x + self.cursorOffset.x, y = position.y + self.cursorOffset.y }
+    local cursorX = position.x + self.cursorOffset.x
+    local cursorY = position.y + self.cursorOffset.y
     local font = FontsBank.getFont(self.fontID)
-    local totalSize = { w = 0, h = 0 }
     self.renderTask.layer = position.z
 
     for _, lineContent in ipairs(self.contentLines) do
         for _, code in utf8.codes(lineContent) do
             local charInfo = font.data.chars[code]
             if charInfo then
-                Graphics.drawImageExtended(cursor.x + charInfo.xoffset,
-                    math.floor(cursor.y) + charInfo.yoffset * transform.scale.y,
+                Graphics.drawImageExtended(cursorX + charInfo.xoffset,
+                    math.floor(cursorY) + charInfo.yoffset * transform.scale.y,
                     charInfo.x, charInfo.y, charInfo.width, charInfo.height,
                     transform.rotation, transform.scale.x, transform.scale.y, font.sheet)
 
-                cursor.x = cursor.x + charInfo.xadvance * transform.scale.x
+                cursorX = cursorX + charInfo.xadvance * transform.scale.x
             end
         end
 
-        cursor.y = cursor.y + self.lineBreakDistance
-        cursor.x = position.x
+        cursorY = cursorY + self.lineBreakDistance
+        cursorX = position.x
     end
-
-    self.size = totalSize
 end
 
 --- Destroys this text component.

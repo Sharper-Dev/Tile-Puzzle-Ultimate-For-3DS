@@ -40,13 +40,19 @@ local function processTouch(boxCollider)
     end
 end
 
-local function processColliders(boxCollider1, boxCollider2)
-    if boxCollider1 == boxCollider2 then return end
-
-    for i = 1, #boxCollider1.ignoreMetaLayers do
-        if boxCollider1.ignoreMetaLayers[i] == boxCollider2.metaCollisionLayer then
-            return
+local function ignoresMetaLayer(boxCollider, metaLayer)
+    for i = 1, #boxCollider.ignoreMetaLayers do
+        if boxCollider.ignoreMetaLayers[i] == metaLayer then
+            return true
         end
+    end
+    return false
+end
+
+local function processColliders(boxCollider1, boxCollider2)
+    if ignoresMetaLayer(boxCollider1, boxCollider2.metaCollisionLayer)
+        and ignoresMetaLayer(boxCollider2, boxCollider1.metaCollisionLayer) then
+        return
     end
     local colliderPositionx1 = boxCollider1.gameObject.transform.position.x
     local colliderPositiony1 = boxCollider1.gameObject.transform.position.y
@@ -111,17 +117,19 @@ function CollisionSystem.setLayerActive(layer, active)
 end
 
 function CollisionSystem.processCollisions()
-	for i = 1, #collisionLayers do
-		local layer = collisionLayers[i]
-		if layer.active then
-    		for _, boxCollider in pairs(layer.colliders) do
+    for i = 1, #collisionLayers do
+        local layer = collisionLayers[i]
+        if layer.active then
+            for colliderKey, boxCollider in pairs(layer.colliders) do
                 processTouch(boxCollider)
-                for _, boxCollider2 in pairs(layer.colliders) do
-                    processColliders(boxCollider, boxCollider2)
+                for otherKey, boxCollider2 in pairs(layer.colliders) do
+                    if colliderKey < otherKey then
+                        processColliders(boxCollider, boxCollider2)
+                    end
                 end
-    		end
-		end
-	end
+            end
+        end
+    end
 end
 
 return CollisionSystem
