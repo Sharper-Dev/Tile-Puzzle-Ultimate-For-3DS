@@ -40,4 +40,3 @@ luac.out
 *.hex
 /build
 romfs.bin
-/doc
