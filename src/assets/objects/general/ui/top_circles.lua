@@ -1,16 +1,16 @@
 local GameObject = require("gameobject.m2d_gameobject")
-local Script = require("scripts.general.ui.top_circles_script")
+local CirclesAnimation = require("scripts.general.ui.circles_animation_script").create(TOP_SCREEN)
 
 local thisObject = GameObject:new("top_circles")
 local scriptComponent = thisObject:addComponent("Script")
 thisObject:addComponent("Sprite")
 
 scriptComponent.start = function()
-    Script.start(thisObject)
+    CirclesAnimation.start(thisObject)
 end
 
 scriptComponent.update = function()
-    Script.update(thisObject)
+    CirclesAnimation.update(thisObject)
 end
 
 return thisObject
