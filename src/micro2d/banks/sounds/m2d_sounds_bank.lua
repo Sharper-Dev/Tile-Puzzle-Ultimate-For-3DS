@@ -7,7 +7,12 @@ local Debugger = require("debugger.m2d_debugger")
 local SoundsBank = {}
 
 local loadedSounds = {}
-
+--- Loads a sound file into memory.
+--- @param format string The format of the sound file ("wav" or "ogg").
+--- @param useStreaming boolean Whether to use streaming mode.
+--- @param path string The path to the sound file.
+--- @usage SoundsBank.loadSound("wav", false, "sounds/background.wav")
+--- @return sound The loaded sound.
 function SoundsBank.loadSound(format, useStreaming, path)
     if loadedSounds[path] then
         return
@@ -24,11 +29,14 @@ function SoundsBank.loadSound(format, useStreaming, path)
         path = path,
     }
 end
-
+--- Returns the list of loaded sounds.
+--- @return table The list of loaded sounds.
+--- @usage local sounds = SoundsBank.getLoadedSounds()
 function SoundsBank.getLoadedSounds()
 	return loadedSounds
 end
-
+--- Unloads all loaded sounds.
+--- @usage SoundsBank.cleanup()
 function SoundsBank.cleanup()
     Debugger.msg("Cleaning up sounds")
     for key, _ in pairs(loadedSounds) do
@@ -36,7 +44,9 @@ function SoundsBank.cleanup()
     end
 	loadedSounds = {}
 end
-
+--- Unloads a sound from memory.
+--- @param path string The path to the sound file.
+--- @usage SoundsBank.unloadSound("sounds/background.wav")
 function SoundsBank.unloadSound(path)
     if loadedSounds[path] ~= nil then
         Debugger.msg("Unloading sound: " .. path)

@@ -5,7 +5,8 @@
 local SoundsBank = require("banks.sounds.m2d_sounds_bank")
 local SoundSystem = {}
 local currentBgm = nil
-
+--- Plays a background music track.
+--- @param soundPath string The path to the sound file.
 function SoundSystem.playBgm(soundPath)
     if currentBgm then
         SoundsBank.unloadSound(currentBgm.path)
