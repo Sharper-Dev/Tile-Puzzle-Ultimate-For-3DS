@@ -17,8 +17,8 @@ A tile puzzle game port for the Nintendo 3DS, built using Lua and homebrew devel
 
 - **Gameplay on 3DS:**
 
-----
+https://github.com/user-attachments/assets/9cff6bfa-4255-4120-8f9e-79d19a4031e8
 
 - **Gameplay on Citra Emulator:**
 
------
+https://github.com/user-attachments/assets/8b76fb58-a5d7-401f-82ab-72e3c16f3649
