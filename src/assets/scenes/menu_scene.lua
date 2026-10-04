@@ -18,7 +18,8 @@ local objectsList = {
     "romfs:/assets/objects/menu/ui/panels/main/main_panel_top.lua",
     "romfs:/assets/objects/menu/ui/panels/credits/buttons/back_button.lua",
     "romfs:/assets/objects/menu/ui/panels/credits/credits_panel_bottom.lua",
-    "romfs:/assets/objects/menu/ui/panels/credits/credits_panel_top.lua"
+    "romfs:/assets/objects/menu/ui/panels/credits/credits_panel_top.lua",
+    "romfs:/assets/objects/menu/ui/version_text.lua"
 }
 
 for _, object in ipairs(objectsList) do
