@@ -2,6 +2,8 @@
 
 The Tile Puzzle Ultimate port for the Nintendo 3DS, built using Lua and homebrew development tools.
 
+The original game source code can be found [here](https://github.com/Sharper-Dev/Open-Tile-Puzzle-Ultimate).
+
 ## Projects & Tools Used
 
 - **[lpp-3ds (Lua Player Plus 3DS)](https://github.com/Rinnegatamante/lpp-3ds)** - A powerful homebrew interpreter that allows running Lua code on the Nintendo 3DS.
