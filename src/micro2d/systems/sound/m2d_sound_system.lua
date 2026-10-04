@@ -1,6 +1,7 @@
 --- Manages sound effects and background music in the game.
 --- @module systems_sound
 --- @author Sharper Dev
+
 local SoundsBank = require("banks.sounds.m2d_sounds_bank")
 local SoundSystem = {}
 local currentBgm = nil
@@ -13,10 +14,6 @@ function SoundSystem.playBgm(soundPath)
     local loadedSounds = SoundsBank.getLoadedSounds()
     currentBgm = loadedSounds[soundPath]
     Sound.play(currentBgm.wav_id, LOOP)
-end
-
-function SoundSystem.playSfx(soundPath)
-    Sound.play(SoundsBank.getLoadedSounds()[soundPath].wav_id, NO_LOOP)
 end
 
 return SoundSystem

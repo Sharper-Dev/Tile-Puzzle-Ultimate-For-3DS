@@ -23,7 +23,6 @@ function SoundsBank.loadSound(format, useStreaming, path)
         wav_id = finalWavId,
         path = path,
     }
-    Debugger.msg("Loaded sound: ")
 end
 
 function SoundsBank.getLoadedSounds()
